@@ -1,3 +1,11 @@
 export default class Servico {
-    public nome!: string
+    private servico: string
+
+    constructor(servico:string){
+        this.servico = servico
+    }
+
+    public get getServico(): string {
+        return this.servico
+    }
 }

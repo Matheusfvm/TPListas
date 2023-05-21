@@ -11,4 +11,5 @@ export default class CPF {
     public get getDataEmissao(): Date {
         return this.dataEmissao
     }
+    
 }

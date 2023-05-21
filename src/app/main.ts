@@ -2,11 +2,16 @@ import Entrada from "../io/entrada";
 import Empresa from "../modelo/empresa"
 import CadastroCliente from "../negocio/cadastroCliente";
 import CadastroProduto from "../negocio/cadastroProfuto";
+import insereServicoProduto from "../negocio/insereServicoProduto";
 import ListagemClientes from "../negocio/listagemClientes";
 import ListagemProdutos from "../negocio/listagemProdutos";
 
-console.log(`Bem-vindo ao cadastro de clientes do Grupo World Beauty`)
+console.log(`Bem-vindo ao sistema de agenda de clientes do Grupo World Beauty`)
+
 let empresa = new Empresa()
+let configuraProdutoServico = new insereServicoProduto(empresa.getServicos, empresa.getProdutos)
+configuraProdutoServico.cadastrar()
+
 let execucao = true
 
 while (execucao) {
@@ -23,7 +28,7 @@ while (execucao) {
 
     switch (opcao) {
         case 1:
-            let cadastro_cliente = new CadastroCliente(empresa.getClientes)// Ele retorna o array de clientes, no início ele está vazio mas depois ele vai retornar o array com os clientes já cadastrados 
+            let cadastro_cliente = new CadastroCliente(empresa.getClientes, empresa.getProdutos, empresa.getServicos)// Ele retorna o array de clientes, no início ele está vazio mas depois ele vai retornar o array com os clientes já cadastrados 
             cadastro_cliente.cadastrar()
             break;
         case 2:
