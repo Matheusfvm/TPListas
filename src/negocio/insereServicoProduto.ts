@@ -19,19 +19,25 @@ export default class insereServicoProduto extends Cadastro {
         
         let temServico = true
         let temProduto = true
+        let contagemId = 1
         while (temServico){
             let inputServico = this.entrada.receberTexto('Insera um serviço: ')
+            let inputPreco = this.entrada.receberNumero('Insira o preço do serviço (use apenas números e "." para separar reais de centavos): ')
             let continua = this.entrada.receberTexto('Há mais algum serviço (responda com sim ou nao) ')
-            let umServico = new Servico(inputServico)
+            let umServico = new Servico(contagemId, inputServico, inputPreco)
+            contagemId += 1
             this.servico.push(umServico)
             if(continua === 'nao' || continua === 'não' || continua === 'n'){
                 temServico = false
+                contagemId = 1
             }
         }
         while(temProduto){
             let inputProduto = this.entrada.receberTexto('Insira um produto: ')
-            let continua = this.entrada.receberTexto('Há mais algum serviço (responda com sim ou nao) ')
-            let umProduto = new Produto(inputProduto)
+            let inputPreco = this.entrada.receberNumero('Insira o preço do produto (use apenas números e "." para separar reais de centavos): ')
+            let continua = this.entrada.receberTexto('Há mais algum produto (responda com sim ou nao) ')
+            let umProduto = new Produto(contagemId, inputProduto, inputPreco)
+            contagemId += 1
             this.produto.push(umProduto)
             if(continua === 'nao' || continua === 'não' || continua === 'n'){
                 temProduto = false

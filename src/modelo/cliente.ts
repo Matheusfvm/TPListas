@@ -5,15 +5,19 @@ import Servico from "./servico"
 import Telefone from "./telefone"
 
 export default class Cliente {
+    private id: number
     public nome: string
     public nomeSocial: string
+    private genero: string
     private cpf: CPF
     private rgs: Array<RG>
     private dataCadastro: Date
     private telefones: Array<Telefone>
     private produtosConsumidos: Array<Produto>
     private servicosConsumidos: Array<Servico>
-    constructor(nome: string, nomeSocial: string, cpf: CPF, rgs: Array<RG>, telefone: Array<Telefone>, produtosConsumidos: Array<Produto>, servicosConsumidos: Array<Servico>) {
+    constructor(id:number, genero:string, nome: string, nomeSocial: string, cpf: CPF, rgs: Array<RG>, telefone: Array<Telefone>, produtosConsumidos: Array<Produto>, servicosConsumidos: Array<Servico>) {
+        this.id = id
+        this.genero = genero
         this.nome = nome
         this.nomeSocial = nomeSocial
         this.cpf = cpf
@@ -40,5 +44,11 @@ export default class Cliente {
     }
     public get getServicosConsumidos(): Array<Servico> {
         return this.servicosConsumidos
+    }
+    public get getId():number{
+        return this.id
+    }
+    public get getGenero():string{
+        return this.genero
     }
 }

@@ -23,7 +23,16 @@ export default class CadastroCliente extends Cadastro {
         console.log(`\nInício do cadastro do cliente`);
         let nome = this.entrada.receberTexto(`Por favor informe o nome do cliente: `);
         let nomeSocial = this.entrada.receberTexto(`Por favor informe o nome social do cliente: `);
-
+        let genero = this.entrada.receberTexto('Insira o gênero (use M ou F): ')
+        if (genero === 'f' || genero === 'F'){
+            genero = 'feminino'
+        }
+        else if (genero === 'm' || genero === 'M'){
+            genero = 'masculino'
+        }
+        else{
+            genero = 'não informado'
+        }
         //===================== CPF =====================
 
         let valor = this.entrada.receberTexto(`Por favor informe o número do cpf: `);
@@ -96,8 +105,16 @@ export default class CadastroCliente extends Cadastro {
         })
 
         //===============================================
-
-        let cliente = new Cliente(nome, nomeSocial, cpf, todosRG, todosTelefone, produtosCliente, servicosCliente);
+        let cliente:Cliente
+        if(this.clientes.length === 0){
+            cliente = new Cliente(1, genero, nome, nomeSocial, cpf, todosRG, todosTelefone, produtosCliente, servicosCliente);
+        }
+        else{
+            let ultimoId = this.clientes[this.clientes.length -1].getId
+            cliente = new Cliente(ultimoId+1, genero, nome, nomeSocial, cpf, todosRG, todosTelefone, produtosCliente, servicosCliente);
+        }
+        
+        
         this.clientes.push(cliente)
         console.log(`\nCadastro concluído)\n`);
     }

@@ -13,8 +13,10 @@ export default class CadastroProduto extends Cadastro {// Criando a classe "Cada
     }
     public cadastrar(): void{ // Essa função não tem retorno, é usada para cadastrar um produto e guardar esse produto nos Array produtos
         console.log(`\nInício do cadastro de produtos`)
-        let nome = this.entrada.receberTexto(`Por favor informe o nome do produto: `)// Uso o método da classe entrada para pegar o valor do nome no console
-        let produto = new Produto(nome)// Cria o objeto produto usando a classe Produto
+        let nomeProduto = this.entrada.receberTexto(`Por favor informe o nome do produto: `)// Uso o método da classe entrada para pegar o valor do nome no console
+        let inputPreco = this.entrada.receberNumero('Insira o preço do produto (use apenas números e "." para separar reais de centavos): ')
+        let ultimoId = this.produtos[this.produtos.length -1].getId
+        let produto = new Produto(ultimoId+1, nomeProduto, inputPreco)// Cria o objeto produto usando a classe Produto
         this.produtos.push(produto)// Guardo o produto criado no Array de produtos
         console.log(`\nCadastro concluído\n`)
     }
