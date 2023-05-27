@@ -2,6 +2,7 @@ export default class Produto {
     private produto: string 
     private preco:number
     private id:number
+    private quantidadeConsumo:number = 0
 
     constructor (id:number, produto: string, preco:number){
         this.produto = produto
@@ -19,5 +20,13 @@ export default class Produto {
 
     public get getId(): number {
         return this.id
+    }
+
+    public get getQuantidadeConsumo(): number{
+        return this.quantidadeConsumo
+    }
+
+    public aumentaQuantidadeConsumo() {
+        this.quantidadeConsumo +=1
     }
 }

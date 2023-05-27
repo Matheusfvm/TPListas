@@ -14,8 +14,21 @@ export default class ListagemProdutos extends Listagem {
             console.log(`ID: ${produto.getId}`)
             console.log(`Nome: ${produto.getProduto}`)
             console.log(`Preço: R$ ${produto.getPreco}`)
+            console.log(`Consumido ${produto.getQuantidadeConsumo} vezes`)
             console.log(`--------------------------------------`)
         })
         console.log(`\nFim da lista\n`)
+    }
+
+    public listagem5ProdutosMaisConsumidos(){
+        let listagem = this.produtos
+        listagem.sort((a, b) => {return b.getQuantidadeConsumo - a.getQuantidadeConsumo})
+        let contagem = 1
+        listagem.forEach((lista)=>{
+            if(contagem <= 5){
+                contagem += 1
+                console.log(`ID: ${lista.getId} | ${lista.getProduto} | R$ ${lista.getPreco} | Consumido ${lista.getQuantidadeConsumo} vezes`)
+            }
+        })
     }
 }

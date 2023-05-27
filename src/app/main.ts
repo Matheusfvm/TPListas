@@ -23,6 +23,14 @@ while (execucao) {
     console.log(`5 - Apagar um cliente`);
     console.log(`6 - Listar cliente por gênero`);
     console.log('7 - Listar todos os serviços')
+    console.log('8 - Listar os 10 clientes que mais consumiram em quantidade')
+    console.log('9 - Listar os 10 clientes que menos consumiram em quantidade')
+    console.log('10 - Listar os 5 clientes que mais consumiram em valor')
+    console.log('11 - Listar os 5 produtos mais consumidos')
+    console.log('12 - Listar os 5 serviços mais consumidos')
+    console.log('13 - Listar os 5 produtos mais consumidos por genero')
+    console.log('14 - Listar os 5 serviços mais consumidos por genero')
+
     console.log(`0 - Sair`);
 
     let entrada = new Entrada()
@@ -55,6 +63,27 @@ while (execucao) {
             let listagem_servico = new ListagemServico(empresa.getServicos)
             listagem_servico.listar()
             break;
+        case 8:
+            let listagem_10_maiores_consumidores = new ListagemClientes(empresa.getClientes)
+            listagem_10_maiores_consumidores.listagem10MaioresConsumidores()
+            break;
+        case 9:
+            let listagem_10_menores_consumidores = new ListagemClientes(empresa.getClientes)
+            listagem_10_menores_consumidores.listagem10MenoresConsumidores()
+            break;
+        case 10:
+            let listagem_5_maiores_consumidores_valor = new ListagemClientes(empresa.getClientes)
+            listagem_5_maiores_consumidores_valor.listagem5MaioresConsumidoresValor()
+            break;
+        case 11:
+            let listagem_5_produtos_mais_consumidos = new ListagemProdutos(empresa.getProdutos)
+            listagem_5_produtos_mais_consumidos.listagem5ProdutosMaisConsumidos()
+            break;
+        case 12:
+            let listagem_5_servicos_mais_consumidos = new ListagemServico(empresa.getServicos)
+            listagem_5_servicos_mais_consumidos.listagem5ServicosMaisConsumidos()
+            break;
+        
         case 0:
             execucao = false
             console.log(`Até mais`)

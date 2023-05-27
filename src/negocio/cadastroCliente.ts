@@ -90,6 +90,7 @@ export default class CadastroCliente extends Cadastro {
             let resposta = this.entrada.receberTexto(`O cliente usa o serviço ${servico.getServico} (responda com sim ou nao)`)
             if (resposta === 'sim' || resposta === 's'){
                 servicosCliente.push(servico)
+                servico.aumentaQuantidadeConsumo()
             }
         })
 
@@ -101,6 +102,7 @@ export default class CadastroCliente extends Cadastro {
             let resposta = this.entrada.receberTexto(`O cliente usa o produto ${produto.getProduto} (responda com sim ou nao)`)
             if (resposta === 'sim' || resposta === 's'){
                 produtosCliente.push(produto)
+                produto.aumentaQuantidadeConsumo()
             }
         })
 
