@@ -2,15 +2,26 @@ import Entrada from "../io/entrada";
 import Empresa from "../modelo/empresa"
 import CadastroCliente from "../negocio/cadastroCliente";
 import CadastroProduto from "../negocio/cadastroProduto";
-import insereServicoProduto from "../negocio/insereServicoProduto";
+import CadastroServico from "../negocio/cadastroServico";
+import InsereServicoProduto from "../negocio/insereServicoProduto";
 import ListagemClientes from "../negocio/listagemClientes";
+import ListagemConsumoProdutoGenero from "../negocio/listagemConsumoProdutoGenero";
+import ListagemConsumoServicoGenero from "../negocio/listagemConsumoServicoGenero";
 import ListagemProdutos from "../negocio/listagemProdutos";
 import ListagemServico from "../negocio/listagemServicos";
 
 console.log(`Bem-vindo ao sistema de agenda de clientes do Grupo World Beauty`)
 
 let empresa = new Empresa()
-let configuraProdutoServico = new insereServicoProduto(empresa.getServicos, empresa.getProdutos)
+let listaCliente = new ListagemClientes(empresa.getClientes)
+let listaServico = new ListagemServico(empresa.getServicos)
+let listaProdutos = new ListagemProdutos(empresa.getProdutos)
+let cadastroCliente = new CadastroCliente(empresa.getClientes, empresa.getProdutos, empresa.getServicos)
+let cadastroServico = new CadastroServico(empresa.getServicos)
+let cadastroProduto = new CadastroProduto(empresa.getProdutos)
+let configuraProdutoServico = new InsereServicoProduto(empresa.getServicos, empresa.getProdutos)
+let listaConsumoProdutoGenero = new ListagemConsumoProdutoGenero(empresa.getClientes, empresa.getProdutos)
+let listaConsumoServicoGenero = new ListagemConsumoServicoGenero(empresa.getClientes, empresa.getServicos)
 configuraProdutoServico.cadastrar()
 let execucao = true
 
@@ -30,6 +41,7 @@ while (execucao) {
     console.log('12 - Listar os 5 serviços mais consumidos')
     console.log('13 - Listar os 5 produtos mais consumidos por genero')
     console.log('14 - Listar os 5 serviços mais consumidos por genero')
+    console.log('15 - Cadastro de serviço')
 
     console.log(`0 - Sair`);
 
@@ -38,52 +50,48 @@ while (execucao) {
 
     switch (opcao) {
         case 1:
-            let cadastro_cliente = new CadastroCliente(empresa.getClientes, empresa.getProdutos, empresa.getServicos)// Ele retorna o array de clientes, no início ele está vazio mas depois ele vai retornar o array com os clientes já cadastrados 
-            cadastro_cliente.cadastrar()
+            cadastroCliente.cadastrar()
             break;
         case 2:
-            let listagem_cliente = new ListagemClientes(empresa.getClientes)
-
-            listagem_cliente.listar()
+            listaCliente.listar()
             break;
         case 3:
-            let cadastro_produto = new CadastroProduto(empresa.getProdutos) 
-            cadastro_produto.cadastrar()
+            cadastroProduto.cadastrar()
             break;
         case 4:
-            let listagem_produto = new ListagemProdutos(empresa.getProdutos)
-            listagem_produto.listar()
+            listaProdutos.listar()
             break;
         case 5:
         case 6:
-            let listagem_cliente_genero = new ListagemClientes(empresa.getClientes)
-            listagem_cliente_genero.listaGenero()
+            listaCliente.listaGenero()
             break;
         case 7:
-            let listagem_servico = new ListagemServico(empresa.getServicos)
-            listagem_servico.listar()
+            listaServico.listar()
             break;
         case 8:
-            let listagem_10_maiores_consumidores = new ListagemClientes(empresa.getClientes)
-            listagem_10_maiores_consumidores.listagem10MaioresConsumidores()
+            listaCliente.listagem10MaioresConsumidores()
             break;
         case 9:
-            let listagem_10_menores_consumidores = new ListagemClientes(empresa.getClientes)
-            listagem_10_menores_consumidores.listagem10MenoresConsumidores()
+            listaCliente.listagem10MenoresConsumidores()
             break;
         case 10:
-            let listagem_5_maiores_consumidores_valor = new ListagemClientes(empresa.getClientes)
-            listagem_5_maiores_consumidores_valor.listagem5MaioresConsumidoresValor()
+            listaCliente.listagem5MaioresConsumidoresValor()
             break;
         case 11:
-            let listagem_5_produtos_mais_consumidos = new ListagemProdutos(empresa.getProdutos)
-            listagem_5_produtos_mais_consumidos.listagem5ProdutosMaisConsumidos()
+            listaProdutos.listagem5ProdutosMaisConsumidos()
             break;
         case 12:
-            let listagem_5_servicos_mais_consumidos = new ListagemServico(empresa.getServicos)
-            listagem_5_servicos_mais_consumidos.listagem5ServicosMaisConsumidos()
+            listaServico.listagem5ServicosMaisConsumidos()
             break;
-        
+        case 13:
+            listaConsumoProdutoGenero.listar()
+            break;
+        case 14:
+            listaConsumoServicoGenero.listar()
+            break;
+        case 15:
+            cadastroServico.cadastrar()
+            break;
         case 0:
             execucao = false
             console.log(`Até mais`)

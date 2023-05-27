@@ -4,7 +4,7 @@ import Servico from "../modelo/servico";
 import Cadastro from "./cadastro";
 
 
-export default class insereServicoProduto extends Cadastro {
+export default class InsereServicoProduto extends Cadastro {
     private servico: Array<Servico>
     private produto: Array<Produto>
     private entrada: Entrada

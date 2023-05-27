@@ -4,7 +4,7 @@ import Cadastro from "./cadastro"
 
 
 
-export default class CadastroProduto extends Cadastro {
+export default class CadastroServico extends Cadastro {
     private servicos: Array<Servico>
     private entrada: Entrada
     constructor(servicos: Array<Servico>){
