@@ -15,8 +15,14 @@ export default class CadastroProduto extends Cadastro {// Criando a classe "Cada
         console.log(`\nInício do cadastro de produtos`)
         let nomeProduto = this.entrada.receberTexto(`Por favor informe o nome do produto: `)// Uso o método da classe entrada para pegar o valor do nome no console
         let inputPreco = this.entrada.receberNumero('Insira o preço do produto (use apenas números e "." para separar reais de centavos): ')
-        let ultimoId = this.produtos[this.produtos.length -1].getId
-        let produto = new Produto(ultimoId+1, nomeProduto, inputPreco)// Cria o objeto produto usando a classe Produto
+        let produto:Produto;
+        if(this.produtos.length === 0){
+            produto = new Produto(1, nomeProduto, inputPreco);
+        }
+        else{
+            let ultimoId = this.produtos[this.produtos.length -1].getId
+            produto = new Produto(ultimoId+1, nomeProduto, inputPreco);
+        };
         this.produtos.push(produto)// Guardo o produto criado no Array de produtos
         console.log(`\nCadastro concluído\n`)
     }

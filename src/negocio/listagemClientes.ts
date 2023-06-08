@@ -10,16 +10,17 @@ export default class ListagemClientes extends Listagem {
     public listar(): void {
         console.log(`\nLista de todos os clientes:\n`);
         this.clientes.forEach(cliente => {
+            console.log(`Id do cliente: ${cliente.getId}`)
             console.log(`Nome: ` + cliente.nome);
             console.log(`Nome social: ` + cliente.nomeSocial);
             console.log(`CPF: ` + cliente.getCpf.getValor);
-            console.log('----- RGs -----')
+            console.log('\n----- RGs -----')
             cliente.getRgs.forEach((rgs)=>{
                 console.log(`Número RG: ${rgs.getValor}\nData de emissão: ${rgs.getDataEmissao}`)
-                console.log('---------------')
-            })
-            console.log(`Data do cadastro: ${cliente.getServicosConsumidos}`)
-            console.log('----- Telefones -----')
+                console.log('\n---------------\n')
+            });
+            console.log(`Data do cadastro: ${cliente.getDataCadastro}`)
+            console.log('\n----- Telefones -----')
             cliente.getTelefones.forEach((telefone)=>{
                 console.log(`(${telefone.getDdd}) ${telefone.getNumero}`)
             })
@@ -27,16 +28,12 @@ export default class ListagemClientes extends Listagem {
             console.log("PRODUTOS CONSUMIDOS")
             console.log('       --------------------------------')
             cliente.getProdutosConsumidos.forEach((produto)=>{
-                
-                
                 console.log(`       ID: ${produto.getId}\n       Produto: ${produto.getProduto}\n       Preço: ${produto.getPreco}`)
                 console.log('       --------------------------------')
             })
             console.log("SERVIÇOS CONSUMIDOS")
             console.log('       --------------------------------')
-            cliente.getServicosConsumidos.forEach((servico)=>{
-                
-                
+            cliente.getServicosConsumidos.forEach((servico)=>{          
                 console.log(`       ID: ${servico.getId}\n       Serviço: ${servico.getServico}\n       Preços: ${servico.getPreco}`)
                 console.log('       --------------------------------')
             })
@@ -90,6 +87,7 @@ export default class ListagemClientes extends Listagem {
                 }
             }
         })
+        console.log(`\n`);
     }
 
     public listagem10MaioresConsumidores() {
