@@ -12,8 +12,8 @@ export default class DadoCliente extends Component<props> {
     render() {
         let estilo = this.props.tema
         return (
-            <div id="espacoNavBar" className="row col s12">
-                <form >
+            <div id="espacoNavBar" className="col s12">
+                <form className="row">
                     <div className="col s12 center">
                         <h5>Cliente ID</h5>
                     </div>
@@ -28,7 +28,7 @@ export default class DadoCliente extends Component<props> {
                         </div>
                         <div className="input-field col s6">
                             <input disabled value="" id="genero" type="text" className="validate" />
-                            <label htmlFor="genero">Genêro</label>
+                            <label htmlFor="genero">Gênero</label>
                         </div>
                         <div className="input-field col s6">
                             <input disabled value="" id="data_cadastro" type="text" className="validate" />
@@ -36,7 +36,7 @@ export default class DadoCliente extends Component<props> {
                         </div>
                         <div className="input-field col s6">
                             <input disabled value="" id="cpf" type="text" className="validate" />
-                            <label htmlFor="cpf">Número do cpf</label>
+                            <label htmlFor="cpf">Número do CPF</label>
                         </div>
                         <div className="input-field col s6">
                             <input disabled value="" id="data_cpf" type="text" className="validate" />
@@ -65,7 +65,14 @@ export default class DadoCliente extends Component<props> {
                             <label htmlFor="numero_telefone">Número do telefone</label>
                         </div>
                     </div>
-                </form>                
+                </form>
+                <div id="espacoNavBar" className="row col s9 center">
+                    <div className="center">
+                        <a className="waves-effect waves-light blue darken-4 btn" onClick={(e) => this.props.seletorView('Cadastrar Cliente', e)}><i className="material-icons left">edit</i>{'Alterar cadastro'}</a>
+                        <a className="waves-effect waves-light blue darken-4 btn" onClick={(e) => this.props.seletorView('Listar Clientes', e)}><i className="material-icons left">delete</i>{'Apagar Cliente'}</a>
+                        <a className="waves-effect waves-light blue darken-4 btn" onClick={(e) => this.props.seletorView('Listar Clientes', e)}><i className="material-icons left">arrow_back</i>{'Voltar'}</a>
+                    </div> 
+                </div>              
             </div>                
         )
     }

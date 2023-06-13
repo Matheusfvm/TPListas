@@ -4,18 +4,21 @@ import 'materialize-css/dist/css/materialize.min.css'
 
 type props = {
     tema: string
+    seletorView: Function
 }
 
 export default class ListaProduto extends Component<props> {
     render() {
-        let estilo = `collection-item active ${this.props.tema}`
+        let estilo = this.props.tema
         return (
-            <div className="collection">
-                <a className="collection-item">Produto 1</a>
-                <a className={estilo}>Produto 2</a>
-                <a className="collection-item">Produto 3</a>
-                <a className="collection-item">Produto 4</a>
-            </div>
+            <div className="col s10">
+                <div className="collection">
+                    <a className="collection-item" onClick={(e) => this.props.seletorView('Dados Produto', e)}>{'Produto id'}</a>
+                    <a className="collection-item" onClick={(e) => this.props.seletorView('Dados Produto', e)}>{'Produto id'}</a>
+                    <a className="collection-item" onClick={(e) => this.props.seletorView('Dados Produto', e)}>{'Produto id'}</a>
+                    <a className="collection-item" onClick={(e) => this.props.seletorView('Dados Produto', e)}>{'Produto id'}</a>
+                </div>
+            </div>                
         )
     }
 }
