@@ -9,9 +9,12 @@ import FormularioCadastroServico from "./formularioCadastroServico";
 import ListaProduto from "./listaProduto";
 import ListaCliente from "./listaCliente";
 import ListaServico from "./listaServico";
+import ListaConsumo from "./listaConsumo";
+import ListaConsumoProduto from "./listaConsumoProduto";
 import DadoCliente from "./dadoCliente";
 import DadoProduto from "./dadoProduto";
 import DadoServico from "./dadoServico";
+import ListaConsumoServico from "./listaConsumoServico";
 
 type state = {
     tela: string
@@ -122,6 +125,35 @@ export default class Roteador extends Component<{}, state> {
                     <DadoServico tema="blue ligthen-1" seletorView={this.selecionarView}/>
                 </>
             )
+        } else if (this.state.tela === 'Listar Consumo') {
+            return (
+                <>
+                    {barraNavegacao}
+                    <ListaConsumo tema="blue ligthen-1" seletorView={this.selecionarView}/>
+                </>
+            )
+        } else if (this.state.tela === 'Listar Consumo Produto') {
+            return (
+                <>
+                    {barraNavegacao}
+                    <ListaConsumoProduto tema="blue ligthen-1" seletorView={this.selecionarView}/>
+                </>
+            )
+        } else if (this.state.tela === 'Listar Consumo Servico') {
+            return (
+                <>
+                    {barraNavegacao}
+                    <ListaConsumoServico tema="blue ligthen-1" seletorView={this.selecionarView}/>
+                </>
+            )
         }
+       /*  else if (this.state.tela === 'Vincular Produto Servico') {
+            return (
+                <>
+                    {barraNavegacao}
+                    <VinculaProdutoServico tema="blue ligthen-1" seletorView={this.selecionarView}/>
+                </>
+            )
+        } */
     }
 }

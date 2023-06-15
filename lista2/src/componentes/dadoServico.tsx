@@ -27,7 +27,7 @@ export default class DadoServico extends Component<props> {
                         </div>
                     </div>
                 </form>
-                <div id="espacoNavBar" className="row col s6 center">
+                <div id="espacoNavBar" className="row col s9 center">
                     <div className="center">
                         <a className="waves-effect waves-light blue darken-4 btn" onClick={(e) => this.props.seletorView('Cadastrar Servico', e)}><i className="material-icons left">edit</i>{'Alterar cadastro'}</a>
                         <a className="waves-effect waves-light blue darken-4 btn" onClick={(e) => this.props.seletorView('Listar Servicos', e)}><i className="material-icons left">delete</i>{'Apagar Serviço'}</a>
