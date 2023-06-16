@@ -11,6 +11,8 @@
   "dependencies": {
     "@types/node": "^16.7.10",
     "@types/prompt-sync": "^4.1.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
     "prompt-sync": "^4.2.0",
     "typescript": "^5.0.4"
   }

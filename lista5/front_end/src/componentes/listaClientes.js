@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import materialize from 'materialize-css';
 import { useEffect, useState } from 'react';
+import api from 'axios';
 
 export default function ListaClientes(props) {
     const estilo = `collection-item active ${props.tema}`
@@ -25,7 +26,9 @@ export default function ListaClientes(props) {
 
 
     async function getClientes(){
-        //api.get(`/listaCliente`).then((resposta)=>{setClientes(resposta)})
+        api.get(`/listaCliente`).then((resposta)=>{
+            setClientes(resposta)
+        })
     }
 
     function Maiores10Quantidade(){
