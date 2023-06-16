@@ -17,10 +17,12 @@ import ListagemServico from "../negocio/listagemServicos";
 import VinculaClienteServicoProduto from "../negocio/VinculaClienteServicoProduto";
 import express from 'express';
 import cors from 'cors';
+import bodyParser from 'body-parser';
 
-const app = express()
-app.use(cors())
-
+const app = express();
+app.use(cors({origin: 'http://localhost:3000'}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 console.log(`Bem-vindo ao sistema de agenda de clientes do Grupo World Beauty`)
 
@@ -42,16 +44,41 @@ let listaConsumoProdutoGenero = new ListagemConsumoProdutoGenero(empresa.getClie
 let listaConsumoServicoGenero = new ListagemConsumoServicoGenero(empresa.getClientes, empresa.getServicos);
 let execucao = true
 
-//Nessa rota preciso de um array de clientes com id, nome, consumoQuantidade, 
-app.get('/listaCliente', (req, res) => {
-    //dados = listaCliente.listaClienteNomeId()
-    //let resposta = []
-    //dados.forEach((dados)=>{resposta.push({dados.id, dados.nome, dados.consumoQuantidade, dados.consumoValor, dados.genero})})
-    //res.send(resposta)
-  });
+
+
+//==================== Cliente ====================
+
+//Nessa rota preciso de um array de clientes com id, nome, consumoQuantidade, consumoValor, genero
+app.get('/listaClientes', (req, res) => {
+  //let dados = listaCliente.listaClienteNomeId()
+  //let resposta = []
+  //dados.forEach((dados)=>{resposta.push({dados.id, dados.nome, dados.consumoQuantidade, dados.consumoValor, dados.genero})})
+  //res.send(dados)
+  res.send('foi')
+});
+
+
+//Nessa rota preciso do nome, 
+app.get('/alteraCliente/:id', (req, res)=>{
+  let id = req.params.id
+  //let dadosResgatados = listaCliente.listaCliente(id)
+  //res.send(dadosResgatados)
+});
 
 
 
+app.post('/alteraCliente', (req, res)=>{
+  // {nome, sobrenome, cpf{numeroCpf, dataEmissao}, genero, rgs[{numeroRG, dataEmissao}], telefone[{ddd, numeroTelefone}], servicos[{servicoNome, consumo}], produto[{produtoNome, consumo}]}
+  let {nome, sobrenome, cpf, genero, rgs, telefone, servico, produto} = req.body 
+  //
+  res.send()
+})
+
+//==================== Produto ====================
+
+app.get('/listaProduto', (req, res)=>{
+
+})
 
 app.listen(8000, () => {
     console.log('http://localhost8000/');

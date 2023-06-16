@@ -26,8 +26,8 @@ export default function ListaClientes(props) {
 
 
     async function getClientes(){
-        api.get(`/listaCliente`).then((resposta)=>{
-            setClientes(resposta)
+        await api.get(`/listaCliente`).then((resposta)=>{
+            console.log(resposta)
         })
     }
 
@@ -73,7 +73,7 @@ export default function ListaClientes(props) {
     useEffect(() => {
         const select = document.querySelectorAll('select');
         materialize.FormSelect.init(select);
-        //getClientes()
+        getClientes()
         Maiores10Quantidade()
         Menores10Quantidade()
         Maiores5Valor()
