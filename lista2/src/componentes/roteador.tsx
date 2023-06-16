@@ -3,18 +3,27 @@ import BarraNavegacao from "./barraNavegacao";
 import TelaCliente from "./telaCliente";
 import TelaProduto from "./telaProduto";
 import TelaServico from "./telaServiço";
+import TelaListagemEspecifica from "./telaListagemEspecifica";
 import FormularioCadastroCliente from "./formularioCadastroCliente";
 import FormularioCadastroProduto from "./formularioCadastroProduto";
 import FormularioCadastroServico from "./formularioCadastroServico";
 import ListaProduto from "./listaProduto";
 import ListaCliente from "./listaCliente";
+import ListaClienteGenero from "./listaClienteGenero";
 import ListaServico from "./listaServico";
 import ListaConsumo from "./listaConsumo";
 import ListaConsumoProduto from "./listaConsumoProduto";
+import ListaConsumoServico from "./listaConsumoServico";
+import ListaClienteMaiorQuantidade from "./listaClienteMaiorQuantidade";
+import ListaClienteMenorQuantidade from "./listaClienteMenorQuantidade";
+import ListaClienteValor from "./listaClienteValor";
+import ListaProdutoServicoGenero from "./listaProdutoServicoGenero";
+import ListaMaiorConsumoProdutoServico from "./listaMaiorConsumoProdutoServico";
 import DadoCliente from "./dadoCliente";
 import DadoProduto from "./dadoProduto";
 import DadoServico from "./dadoServico";
-import ListaConsumoServico from "./listaConsumoServico";
+import ConsumoCliente from "./consumoCliente";
+import VinculaProdutoServico from "./vinculaProdutoServico";
 
 type state = {
     tela: string
@@ -39,7 +48,7 @@ export default class Roteador extends Component<{}, state> {
     }
 
     render() {
-        let barraNavegacao = <BarraNavegacao seletorView={this.selecionarView} tema="blue lighten-1" botoes={['Clientes', 'Produtos', 'Servicos', 'Listagens Específicas']} />
+        let barraNavegacao = <BarraNavegacao seletorView={this.selecionarView} tema="blue lighten-1" botoes={['Clientes', 'Produtos', 'Servicos', 'Listagens Especificas']} />
         if (this.state.tela === 'Clientes') {
             return (
                 <>
@@ -146,14 +155,76 @@ export default class Roteador extends Component<{}, state> {
                     <ListaConsumoServico tema="blue ligthen-1" seletorView={this.selecionarView}/>
                 </>
             )
-        }
-       /*  else if (this.state.tela === 'Vincular Produto Servico') {
+        } else if (this.state.tela === 'Consumo Cliente') {
             return (
                 <>
                     {barraNavegacao}
-                    <VinculaProdutoServico tema="blue ligthen-1" seletorView={this.selecionarView}/>
+                    <ConsumoCliente tema="blue ligthen-1" seletorView={this.selecionarView}/>
                 </>
             )
-        } */
+        } else if (this.state.tela === 'Vincula Produto Servico') {
+            return (
+                <>
+                    {barraNavegacao}
+                    <VinculaProdutoServico tema="blue darken-4" seletorView={this.selecionarView}/>
+                </>
+            )
+        } else if (this.state.tela === 'Listagens Especificas') {
+            return (
+                <>
+                    {barraNavegacao}
+                    <TelaListagemEspecifica tema="blue darken-4" seletorView={this.selecionarView}/>
+                </>
+            )
+        } else if (this.state.tela === 'Lista Cliente Maior Quantidade') {
+            return (
+                <>
+                    {barraNavegacao}
+                    <ListaClienteMaiorQuantidade tema="blue darken-4" seletorView={this.selecionarView}/>
+                </>
+            )
+        } else if (this.state.tela === 'Lista Cliente Menor Quantidade') {
+            return (
+                <>
+                    {barraNavegacao}
+                    <ListaClienteMenorQuantidade tema="blue darken-4" seletorView={this.selecionarView}/>
+                </>
+            )
+        } else if (this.state.tela === 'Lista Cliente Valor') {
+            return (
+                <>
+                    {barraNavegacao}
+                    <ListaClienteValor tema="blue darken-4" seletorView={this.selecionarView}/>
+                </>
+            )
+        } else if (this.state.tela === 'Lista Cliente Genero') {
+            return (
+                <>
+                    {barraNavegacao}
+                    <ListaClienteGenero tema="blue darken-4" seletorView={this.selecionarView}/>
+                </>
+            )
+        } else if (this.state.tela === 'Lista Produto Servico Genero') {
+            return (
+                <>
+                    {barraNavegacao}
+                    <ListaProdutoServicoGenero tema="blue darken-4" seletorView={this.selecionarView}/>
+                </>
+            )
+        } else if (this.state.tela === 'Lista Produto Servico Genero') {
+            return (
+                <>
+                    {barraNavegacao}
+                    <ListaProdutoServicoGenero tema="blue darken-4" seletorView={this.selecionarView}/>
+                </>
+            )
+        } else if (this.state.tela === 'Lista Maior Consumo Produto Servico') {
+            return (
+                <>
+                    {barraNavegacao}
+                    <ListaMaiorConsumoProdutoServico tema="blue darken-4" seletorView={this.selecionarView}/>
+                </>
+            )
+        }
     }
 }
