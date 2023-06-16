@@ -48,7 +48,7 @@ let execucao = true
 
 //==================== Cliente ====================
 
-//Nessa rota preciso de um array de clientes com id, nome, consumoQuantidade, consumoValor, genero
+//Nessa rota preciso de um array de clientes com {id, nome, consumoQuantidade, consumoValor, genero}
 app.get('/listaClientes', (req, res) => {
   //let dados = listaCliente.listaClienteNomeId()
   //let resposta = []
@@ -61,24 +61,82 @@ app.get('/listaClientes', (req, res) => {
 //Nessa rota preciso do nome, 
 app.get('/alteraCliente/:id', (req, res)=>{
   let id = req.params.id
-  //let dadosResgatados = listaCliente.listaCliente(id)
+  //Função que pega os dados usando o id: {nome, sobrenome, cpf{numeroCpf, dataEmissao}, genero, rgs[{numeroRG, dataEmissao}], telefone[{ddd, numeroTelefone}], servicos[{servicoNome, consumo}](quantidade consumida pelo id), produto[{produtoNome, consumo}](quantidade consumida pelo id)}
   //res.send(dadosResgatados)
+  res.send('foi')
 });
 
 
 
 app.post('/alteraCliente', (req, res)=>{
-  // {nome, sobrenome, cpf{numeroCpf, dataEmissao}, genero, rgs[{numeroRG, dataEmissao}], telefone[{ddd, numeroTelefone}], servicos[{servicoNome, consumo}], produto[{produtoNome, consumo}]}
-  let {nome, sobrenome, cpf, genero, rgs, telefone, servico, produto} = req.body 
-  //
-  res.send()
+  // Recebe do front os seguintes dados: {nome, sobrenome, cpf{numeroCpf, dataEmissao}, genero, rgs[{numeroRG, dataEmissao}], telefone[{ddd, numeroTelefone}], servicos[{servicoNome, consumo}], produto[{produtoNome, consumo}]}
+  let {id, nome, sobrenome, cpf, genero, rgs, telefone, servico, produto} = req.body 
+  //função que faz o update usando os dados acima como parametro
+  res.send('foi')
 })
+
+app.post('/cadastroCliente', (req, res)=>{
+  // Recebe do front os seguintes dados: {nome, sobrenome, cpf{numeroCpf, dataEmissao}, genero, rgs[{numeroRG, dataEmissao}], telefone[{ddd, numeroTelefone}]
+  // Função que insere esses dados acima
+  res.send('foi')
+  })
 
 //==================== Produto ====================
 
+//Nessa rota preciso de um array de Produtos com {id, produto, consumoHomem, consumoMulher, consumoTotal}
 app.get('/listaProduto', (req, res)=>{
-
+  res.send('foi')
 })
+
+app.post('/cadastroProduto', (req, res)=>{
+  //Recebe do front os seguintes dados: produto e preço
+  //Função que insere esses dados no banco
+  res.send('foi')
+})
+
+//Preciso do produto e o preço atrelado ao id enviado pelo front
+app.get('/alteraProduto/:id', (req, res)=>{
+  let id = req.params.id
+  //Função que pega o preço e o produto
+  res.send('foi')
+})
+
+//Front vai enviar preço e produto o back precisa fazer a alteração
+app.post('/alteraProduto', (req, res)=>{
+  let {id, produto, preco} = req.body
+  //função que faz o update usando os dados acima como parametro
+  res.send('foi')
+})
+
+//==================== Serviço ====================
+
+//Nessa rota preciso de um array de Serviço com {id, serviço, consumoHomem, consumoMulher, consumoTotal}
+app.get('/listaServico', (req, res)=>{
+  res.send('foi')
+})
+
+app.post('/cadastroServico', (req, res)=>{
+  //Recebe do front os seguintes dados: servico e preço
+  //Função que insere esses dados no banco
+  res.send('foi')
+})
+
+//Preciso do serviço e o preço atrelado ao id enviado pelo front
+app.get('/alteraServico/:id', (req, res)=>{
+  let id = req.params.id
+  //Função que pega o preço e o servico
+  res.send('foi')
+})
+
+//Front vai enviar preço e serviço
+app.post('/alteraServico', (req, res)=>{
+  let {id, servico, preco} = req.body
+  //função que faz o update usando os dados acima como parametro
+  res.send('foi')
+})
+
+
+//===================== Configuração de porta =====================
 
 app.listen(8000, () => {
     console.log('http://localhost8000/');

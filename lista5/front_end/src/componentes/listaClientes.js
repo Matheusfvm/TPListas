@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import materialize from 'materialize-css';
 import { useEffect, useState } from 'react';
-import api from 'axios';
+import api from '../api';
 
 export default function ListaClientes(props) {
     const estilo = `collection-item active ${props.tema}`
@@ -26,8 +26,8 @@ export default function ListaClientes(props) {
 
 
     async function getClientes(){
-        await api.get(`/listaCliente`).then((resposta)=>{
-            console.log(resposta)
+        await api.get(`/listaClientes`).then((resposta)=>{
+            console.log(resposta.data)
         })
     }
 

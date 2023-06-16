@@ -1,6 +1,7 @@
-import api from 'axios'
+import axios from 'axios'
 
-api.defaults.baseURL = 'http://localhost:8000';
-api.defaults.headers.common['Authorization'] = 'Bearer YOUR_ACCESS_TOKEN';
+const api = axios.create({
+    baseURL: 'http://localhost:8000'
+})
 
-module.exports(api)
+export default api;
