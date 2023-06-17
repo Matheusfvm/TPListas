@@ -9,14 +9,14 @@ export default class AtualizarServico extends Atualizador {
         super()
         this.conexao = new BancoDados
     };
-    public async atualizar(dados){
+    public async atualizar(descricaoServico, precoServico, id){
         await this.conexao.conectar()
         await this.conexao.query(`
             UPDATE servico
             SET servico_nome = ?,
                 servico_preco = ?
             WHERE servico_codigo = ? 
-        `, [dados.descricaoServico, dados.precoServico, dados.id])
+        `, [descricaoServico, precoServico, id])
         await this.conexao.desconectar()
     };
 

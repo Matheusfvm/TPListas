@@ -30,7 +30,7 @@ export default class ListagemClientes extends Listagem {
     public async listarDadosCliente(id: string) {
         await this.conexao.conectar()
         let cliente = await this.conexao.query(
-            `SELECT cliente_nome AS nome, cliente_nome_social AS nomeSocial, cliente_cpf AS numeroCpf, cliente_cpf_data AS dataEmissao 
+            `SELECT cliente_nome AS nome, cliente_sobrenome AS sobrenome, cliente_cpf AS numeroCpf, cliente_cpf_data AS dataEmissao 
             FROM cliente 
             WHERE cliente_codigo = ${id};`
         ) as Array<any>;

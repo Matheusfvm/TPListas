@@ -75,7 +75,6 @@ app.get('/alteraCliente/:id', (req, res)=>{
 app.post('/alteraCliente', (req, res)=>{
   // Recebe do front os seguintes dados: {nome, sobrenome, cpf{numeroCpf, dataEmissao}, genero, rgs[{numeroRG, dataEmissao}], telefone[{ddd, numeroTelefone}], servicos[{servicoNome, consumo}], produto[{produtoNome, consumo}]}
   let {id, nome, sobrenome, cpf, cpfDataEmissao, genero, rgs, telefone, servico, produto} = req.body
-  let dadosCliente = [nome, sobrenome, cpf, cpfDataEmissao, genero, id]
   atualizaCliente.atualizarCliente(id, nome, sobrenome, cpf, cpfDataEmissao, genero);
   cadastroCliente.cadastraRgs(rgs, id);
   cadastroCliente.cadastroTelefone(telefone, id)
@@ -91,6 +90,8 @@ app.post('/cadastroCliente', (req, res)=>{
   cadastroCliente.cadastrar(dados)
   res.send('foi')
   })
+
+
 
 //==================== Produto ====================
 
@@ -109,14 +110,15 @@ app.post('/cadastroProduto', async (req, res)=>{
 //Preciso do produto e o preço atrelado ao id enviado pelo front
 app.get('/alteraProduto/:id', (req, res)=>{
   let id = req.params.id
-  //Função que pega o preço e o produto
-  res.send('foi')
+  let dados = atualizaProduto.regatar(id)
+  console.log('Resgata Produto:', dados)
+  res.send(dados)
 })
 
 //Front vai enviar preço e produto o back precisa fazer a alteração
 app.post('/alteraProduto', (req, res)=>{
   let {id, produto, preco} = req.body
-  //função que faz o update usando os dados acima como parametro
+  atualizaProduto.atualizar(produto, preco, id)
   res.send('foi')
 })
 
@@ -144,8 +146,8 @@ app.get('/alteraServico/:id', (req, res)=>{
 
 //Front vai enviar preço e serviço
 app.post('/alteraServico', (req, res)=>{
-  let dados = req.body
-  
+  let {id, servico, preco} = req.body
+  atualizaServico.atualizar(servico, preco, id)
   res.send('foi')
 })
 
