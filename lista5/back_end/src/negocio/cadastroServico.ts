@@ -1,6 +1,4 @@
-import Entrada from "../io/entrada"
 import BancoDados from "../modelo/bancoDados"
-import Servico from "../modelo/servico"
 import Cadastro from "./cadastro"
 
 
@@ -16,8 +14,8 @@ export default class CadastroServico extends Cadastro {
         await this.conexao.conectar()
         await this.conexao.query(`
             INSERT INTO servico(servico_nome, servico_preco)
-            VALUES(?, ?)
-        `, [dados.descricaoServico, dados.precoServico])
+            VALUES(?, ?)`, 
+            [dados.descricaoServico, dados.precoServico])
         await this.conexao.desconectar()
     }
 }

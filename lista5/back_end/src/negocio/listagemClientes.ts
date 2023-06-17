@@ -30,27 +30,35 @@ export default class ListagemClientes extends Listagem {
     public async listarDadosCliente(id: string) {
         await this.conexao.conectar()
         let cliente = await this.conexao.query(
-        `SELECT cliente_nome AS nome, cliente_nome_social AS nomeSocial, cliente_cpf AS numeroCpf, cliente_cpf_data AS dataEmissao 
-        FROM cliente WHERE cliente_codigo = ${id};`
+            `SELECT cliente_nome AS nome, cliente_nome_social AS nomeSocial, cliente_cpf AS numeroCpf, cliente_cpf_data AS dataEmissao 
+            FROM cliente 
+            WHERE cliente_codigo = ${id};`
         ) as Array<any>;
         let rg = await this.conexao.query(
-        `SELECT rg_numero AS numeroRG, rg_data_emissao AS rgDataEmissao from rg WHERE cliente_codigo = ${id};`
+            `SELECT rg_numero AS numeroRG, rg_data_emissao AS rgDataEmissao 
+            FROM rg 
+            WHERE cliente_codigo = ${id};`
         ) as Array<any>;
         let telefone = await this.conexao.query(
-        `SELECT telefone_ddd AS ddd, telefone_numero AS numeroTelefone from telefone WHERE cliente_codigo = ${id};`
+            `SELECT telefone_ddd AS ddd, telefone_numero AS numeroTelefone 
+            FROM telefone 
+            WHERE cliente_codigo = ${id};`
         ) as Array<any>;
-        let consumoServico = await this.conexao.query(`SELECT s.servico_nome AS servicoNome, count(cs.servico_codigo) AS consumo 
-        FROM servico s LEFT JOIN consumo_servico cs ON s.servico_codigo = cs.servico_codigo AND cs.cliente_codigo = ${id} 
-        GROUP AND s.servico_nome;`) as Array<any>;;
+        let consumoServico = await this.conexao.query(
+            `SELECT s.servico_nome AS servicoNome, count(cs.servico_codigo) AS consumo 
+            FROM servico s 
+                LEFT JOIN consumo_servico cs ON s.servico_codigo = cs.servico_codigo AND cs.cliente_codigo = ${id} 
+            GROUP AND s.servico_nome;`
+            ) as Array<any>;;
         let consumoProduto = await this.conexao.query(
-        `SELECT p.produto_nome as produtoNome, count(cp.produto_codigo) AS consumo
-        FROM produto p 
-            LEFT JOIN consumo_produto cp ON p.produto_codigo = cp.produto_codigo AND cp.cliente_codigo = ${id}
-        GROUP BY p.produto_nome;`
+            `SELECT p.produto_nome as produtoNome, count(cp.produto_codigo) AS consumo
+            FROM produto p 
+                LEFT JOIN consumo_produto cp ON p.produto_codigo = cp.produto_codigo AND cp.cliente_codigo = ${id}
+            GROUP BY p.produto_nome;`
         ) as Array<any>;;
-        cliente.push(rg, telefone, consumoServico, consumoProduto)
+        cliente[0].push(rg[0], telefone[0], consumoServico[0], consumoProduto[0])
         await this.conexao.desconectar()
-        return cliente
+        return cliente[0]
     }
     
 
