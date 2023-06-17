@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import api from "../api";
 
 export default function CadastroProduto(props){
     let [descricaoProduto, setDescricaoProduto] = useState('')
@@ -15,7 +16,14 @@ export default function CadastroProduto(props){
         }
     }
 
+    // =========== Submit ===========
 
+    async function cadastraProduto(){
+        api.post('/cadastroServico', {descricaoProduto, precoProduto})
+            .then((e)=>{props.seletorView('Serviços', e)})
+    }
+    
+    // ==============================
 
 
     useEffect(() => {
@@ -40,7 +48,7 @@ export default function CadastroProduto(props){
                 </div>
                 <div className="row">
                     <div className="col s12">
-                        <button className={estiloBotao} type="submit" name="action">Submit
+                        <button className={estiloBotao} onClick={cadastraProduto} type="submit" name="action">Submit
                             <i className="material-icons right">send</i>
                         </button>
                     </div>

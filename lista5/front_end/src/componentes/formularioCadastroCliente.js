@@ -14,8 +14,8 @@ export default function FormularioCadastroCliente(props){
 
 
     // ============== Cadastro ==============
-    async function cadastraCliente(){
-        api.post('/cadastroCliente', {nome, sobrenome, cpf, genero, rgs, telefone}).then((e)=>{props.seletorView('Clientes', e)})
+    async function cadastraCliente(evento){
+        api.post('/cadastroCliente', {nome, sobrenome, cpf, genero, rgs, telefone}).then((resposta)=>{props.seletorView('Clientes', evento)})
     }
 
     // ============== CPF ==============
@@ -209,7 +209,7 @@ export default function FormularioCadastroCliente(props){
 
                 <div className="row">
                     <div className="col s12">
-                        <button className={estiloBotao} onClick={cadastraCliente} type="submit" name="action">Submit
+                        <button className={estiloBotao} onClick={(e)=>{cadastraCliente(e)}} type="submit" name="action">Submit
                             <i className="material-icons right">send</i>
                         </button>
                     </div>

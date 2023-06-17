@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import api from "../api";
 
 export default function CadastroServico(props){
     let [descricaoServico, setDescricaoServico] = useState('')
@@ -15,8 +16,14 @@ export default function CadastroServico(props){
         }
     }
 
+    // =========== Submit ===========
 
+    async function cadastraServico(){
+        api.post('/cadastroServico', {descricaoServico, precoServico})
+            .then((e)=>{props.seletorView('Serviços', e)})
+    }
 
+    // ==============================
 
     useEffect(() => {
         
@@ -40,7 +47,7 @@ export default function CadastroServico(props){
                 </div>
                 <div className="row">
                     <div className="col s12">
-                        <button className={estiloBotao} type="submit" name="action">Submit
+                        <button className={estiloBotao} onClick={cadastraServico} type="submit" name="action">Submit
                             <i className="material-icons right">send</i>
                         </button>
                     </div>

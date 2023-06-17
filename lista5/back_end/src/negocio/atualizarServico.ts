@@ -1,28 +1,33 @@
 import Servico from "../modelo/servico";
 import Entrada from "../io/entrada";
 import Atualizador from "./atualizador";
+import BancoDados from "../modelo/bancoDados";
 
 export default class AtualizarServico extends Atualizador {
-    private servicos: Array<Servico>;
-    private entrada: Entrada;
-    constructor (servicos: Array<Servico>) {
+    private conexao:BancoDados
+    constructor () {
         super()
-        this.servicos = servicos
-        this.entrada = new Entrada
+        this.conexao = new BancoDados
     };
-    public atualizar(): void {
-        console.log(`\nAtualizar o cadastro do Serviço`);
-        let valorId = this.entrada.receberNumero(`Digite o ID do serviço que será atualizado: `);
-        if (valorId > this.servicos.length || valorId === 0) {
-            console.log(`Nenhum serviço com esse ID\n`);
-        } else if (valorId <= this.servicos.length) {            
-            let indexDoServico = this.servicos.findIndex((servico) => {
-                return servico.getId === valorId
-            });
-            this.servicos[indexDoServico].setNomeServico = this.entrada.receberTexto(`Por favor informe o nome do serviço: `);
-            this.servicos[indexDoServico].setPrecoServico = this.entrada.receberNumero('Insira o preço do serviço (use apenas números e "." para separar reais de centavos): ');
-            console.log(`\nProduto Atualizado\n`)
-        };
-        
+    public async atualizar(dados){
+        await this.conexao.conectar()
+        await this.conexao.query(`
+            UPDATE servico
+            SET servico_nome = ?,
+                servico_preco = ?
+            WHERE servico_codigo = ? 
+        `, [dados.descricaoServico, dados.precoServico, dados.id])
+        await this.conexao.desconectar()
     };
+
+    public async regatar(id){
+        await this.conexao.conectar()
+        let dados = await this.conexao.query(`
+            SELECT servico_nome as descricaoServico, servico_preco as precoServico
+            FROM servico
+            WHERE servico_codigo = ?
+        `, [id]) as Array<any>
+        await this.conexao.desconectar()
+        return dados[0]
+    }
 };

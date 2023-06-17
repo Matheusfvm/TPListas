@@ -1,3 +1,3 @@
 export default abstract class Atualizador {
-    public abstract atualizar(): void
+    public abstract atualizar(dados:any): void
 }

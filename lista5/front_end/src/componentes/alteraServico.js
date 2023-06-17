@@ -1,6 +1,7 @@
 
 import { useEffect } from "react"
 import { useState } from "react"
+import api from "../api";
 
 export default function AlteraServico (props){
     const estiloBotao = `btn waves-effect waves-light ${props.tema}`
@@ -10,11 +11,10 @@ export default function AlteraServico (props){
     
 
     async function getDados(){
-        // Pega dados de um backend usando o id do cliente vindo do props
-        // await api.get(`/updateServico/${props.numeroServico}`).then((resposta)=>{
-        //     setDescricaoServico(resposta.descricaoServico)
-        //     setPrecoServico(resposta.precoServico)
-        // })
+        await api.get(`/alteraServico/${props.numeroServico}`).then((resposta)=>{
+            setDescricaoServico(resposta.descricaoServico)
+            setPrecoServico(resposta.precoServico)
+        })
     }
 
     function mascaraDinheiro(evento){
@@ -24,6 +24,16 @@ export default function AlteraServico (props){
         }
     }
 
+
+    //============= alteraServico =============
+
+    async function alteraServico(evento){
+        let id = props.id
+        await api.post('/alteraServico', {precoServico, descricaoServico, id})
+            .then((resposta)=>{props.seletorView('Serviços', evento)})
+    }
+
+    //=========================================
 
     useEffect(() => {
         
@@ -50,7 +60,7 @@ export default function AlteraServico (props){
                 </div>
                 <div className="row">
                     <div className="col s12">
-                        <button className={estiloBotao} type="submit" name="action">Submit
+                        <button className={estiloBotao} onClick={(e)=>{alteraServico(e)}} type="submit" name="action">Submit
                             <i className="material-icons right">send</i>
                         </button>
                     </div>

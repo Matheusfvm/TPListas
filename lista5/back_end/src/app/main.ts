@@ -29,6 +29,9 @@ const bd = new BancoDados()
 console.log(`Bem-vindo ao sistema de agenda de clientes do Grupo World Beauty`)
 let cadastroCliente = new CadastroCliente();
 let listaCliente = new ListagemClientes();
+let cadastroServico = new CadastroServico();
+let cadastroProduto = new CadastroProduto();
+let atualizaServico = new AtualizarServico();
 /* let listaServico = new ListagemServico(empresa.getServicos);
 let listaProdutos = new ListagemProdutos(empresa.getProdutos);
 
@@ -51,7 +54,7 @@ let execucao = true */
 
 //Nessa rota preciso de um array de clientes com {id, nome, consumoQuantidade, consumoValor, genero}
 app.get('/listaClientes', async (req, res) => {
-  let clientes = await listaCliente.listagemConsumoProduto()
+  let clientes = await listaCliente.listagemConsumoProdutoServico()
   console.log(clientes)
   res.send(clientes)
 });
@@ -69,7 +72,7 @@ app.get('/alteraCliente/:id', (req, res)=>{
 
 app.post('/alteraCliente', (req, res)=>{
   // Recebe do front os seguintes dados: {nome, sobrenome, cpf{numeroCpf, dataEmissao}, genero, rgs[{numeroRG, dataEmissao}], telefone[{ddd, numeroTelefone}], servicos[{servicoNome, consumo}], produto[{produtoNome, consumo}]}
-  let {id, nome, sobrenome, cpf, genero, rgs, telefone, servico, produto} = req.body 
+  let {id, nome, sobrenome, cpf, cpfDataEmissao, genero, rgs, telefone, servico, produto} = req.body
   //função que faz o update usando os dados acima como parametro
   res.send('foi')
 })
@@ -77,8 +80,6 @@ app.post('/alteraCliente', (req, res)=>{
 app.post('/cadastroCliente', (req, res)=>{
   let dados = req.body
   console.log(dados)
-  // Recebe do front os seguintes dados: {nome, sobrenome, cpf{numeroCpf, dataEmissao}, genero, rgs[{numeroRG, dataEmissao}], telefone[{ddd, numeroTelefone}]
-  // Função que insere esses dados acima
   cadastroCliente.cadastrar(dados)
   res.send('foi')
   })
@@ -90,9 +91,9 @@ app.get('/listaProduto', (req, res)=>{
   res.send('foi')
 })
 
-app.post('/cadastroProduto', (req, res)=>{
-  //Recebe do front os seguintes dados: produto e preço
-  //Função que insere esses dados no banco
+app.post('/cadastroProduto', async (req, res)=>{
+  let dados = req.body
+  await cadastroProduto.cadastrar(dados)
   res.send('foi')
 })
 
@@ -117,23 +118,24 @@ app.get('/listaServico', (req, res)=>{
   res.send('foi')
 })
 
-app.post('/cadastroServico', (req, res)=>{
-  //Recebe do front os seguintes dados: servico e preço
-  //Função que insere esses dados no banco
+app.post('/cadastroServico', async (req, res)=>{
+  let dados = req.body
+  await cadastroServico.cadastrar(dados)
   res.send('foi')
 })
 
 //Preciso do serviço e o preço atrelado ao id enviado pelo front
 app.get('/alteraServico/:id', (req, res)=>{
   let id = req.params.id
-  //Função que pega o preço e o servico
-  res.send('foi')
+  let dados = atualizaServico.regatar(id)
+  console.log('Resgata Servico:', dados)
+  res.send(dados)
 })
 
 //Front vai enviar preço e serviço
 app.post('/alteraServico', (req, res)=>{
-  let {id, servico, preco} = req.body
-  //função que faz o update usando os dados acima como parametro
+  let dados = req.body
+  
   res.send('foi')
 })
 
