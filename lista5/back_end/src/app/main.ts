@@ -32,14 +32,16 @@ let listaCliente = new ListagemClientes();
 let cadastroServico = new CadastroServico();
 let cadastroProduto = new CadastroProduto();
 let atualizaServico = new AtualizarServico();
+let atualizaCliente = new AtualizarCliente();
+let atualizaProduto = new AtualizarProduto();
 /* let listaServico = new ListagemServico(empresa.getServicos);
 let listaProdutos = new ListagemProdutos(empresa.getProdutos);
 
 let cadastroServico = new CadastroServico(empresa.getServicos);
 let cadastroProduto = new CadastroProduto(empresa.getProdutos);
-let atualizaCliente = new AtualizarCliente(empresa.getClientes);
+
 let atualizaProduto = new AtualizarProduto(empresa.getProdutos);
-let atualizaServico = new AtualizarServico(empresa.getServicos);
+
 let vendeProdutoServico = new VinculaClienteServicoProduto(empresa.getServicos, empresa.getProdutos, empresa.getClientes);
 let apagaCliente = new ApagarCliente(empresa.getClientes);
 let apagaProduto = new ApagarProduto(empresa.getProdutos);
@@ -73,6 +75,12 @@ app.get('/alteraCliente/:id', (req, res)=>{
 app.post('/alteraCliente', (req, res)=>{
   // Recebe do front os seguintes dados: {nome, sobrenome, cpf{numeroCpf, dataEmissao}, genero, rgs[{numeroRG, dataEmissao}], telefone[{ddd, numeroTelefone}], servicos[{servicoNome, consumo}], produto[{produtoNome, consumo}]}
   let {id, nome, sobrenome, cpf, cpfDataEmissao, genero, rgs, telefone, servico, produto} = req.body
+  let dadosCliente = [nome, sobrenome, cpf, cpfDataEmissao, genero, id]
+  atualizaCliente.atualizarCliente(id, nome, sobrenome, cpf, cpfDataEmissao, genero);
+  cadastroCliente.cadastraRgs(rgs, id);
+  cadastroCliente.cadastroTelefone(telefone, id)
+  atualizaProduto.consumirProduto(produto, id)
+  atualizaServico.consumirServico(servico, id)
   //função que faz o update usando os dados acima como parametro
   res.send('foi')
 })
