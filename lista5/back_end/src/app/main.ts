@@ -1,5 +1,4 @@
 import Entrada from "../io/entrada";
-import Empresa from "../modelo/empresa"
 import ApagarCliente from "../negocio/apagarCliente";
 import ApagarProduto from "../negocio/apagarProduto";
 import ApagarServico from "../negocio/apagarServico";
@@ -18,17 +17,19 @@ import VinculaClienteServicoProduto from "../negocio/VinculaClienteServicoProdut
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import BancoDados from "../modelo/bancoDados";
 
 const app = express();
 app.use(cors({origin: 'http://localhost:3000'}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const bd = new BancoDados()
+
 console.log(`Bem-vindo ao sistema de agenda de clientes do Grupo World Beauty`)
 
-let empresa = new Empresa()
-let listaCliente = new ListagemClientes(empresa.getClientes);
-let listaServico = new ListagemServico(empresa.getServicos);
+/* let listaCliente = new ListagemClientes(empresa.getClientes); */
+/* let listaServico = new ListagemServico(empresa.getServicos);
 let listaProdutos = new ListagemProdutos(empresa.getProdutos);
 let cadastroCliente = new CadastroCliente(empresa.getClientes);
 let cadastroServico = new CadastroServico(empresa.getServicos);
@@ -42,17 +43,17 @@ let apagaProduto = new ApagarProduto(empresa.getProdutos);
 let apagaServico = new ApagarServico(empresa.getServicos);
 let listaConsumoProdutoGenero = new ListagemConsumoProdutoGenero(empresa.getClientes, empresa.getProdutos);
 let listaConsumoServicoGenero = new ListagemConsumoServicoGenero(empresa.getClientes, empresa.getServicos);
-let execucao = true
+let execucao = true */
 
 
 
 //==================== Cliente ====================
 
 //Nessa rota preciso de um array de clientes com {id, nome, consumoQuantidade, consumoValor, genero}
-app.get('/listaClientes', (req, res) => {
-  //let dados = listaCliente.listaClienteNomeId()
-  //let resposta = []
-  //dados.forEach((dados)=>{resposta.push({dados.id, dados.nome, dados.consumoQuantidade, dados.consumoValor, dados.genero})})
+app.get('/listaClientes', async (req, res) => {
+  let id = req.body.id
+  let dados = []
+    //dados.forEach((dados)=>{resposta.push({dados.id, dados.nome, dados.consumoQuantidade, dados.consumoValor, dados.genero})})
   //res.send(dados)
   res.send('foi')
 });

@@ -1,45 +1,30 @@
 import Cliente from "../modelo/cliente";
 import Listagem from "./listagem";
+import BancoDados from "../modelo/bancoDados";
+
 
 export default class ListagemClientes extends Listagem {
-    private clientes: Array<Cliente>
-    constructor(clientes: Array<Cliente>) {
+    private clientes: Cliente
+    private conexao: BancoDados
+    constructor(clientes: Cliente) {
         super()
+        this.conexao = new BancoDados
         this.clientes = clientes
     }
     public listar(): void {
-        console.log(`\nLista de todos os clientes:\n`);
-        this.clientes.forEach(cliente => {
-            console.log(`Id do cliente: ${cliente.getId}`)
-            console.log(`Nome: ` + cliente.nome);
-            console.log(`Nome social: ` + cliente.nomeSocial);
-            console.log(`CPF: ` + cliente.getCpf.getValor);
-            console.log('\n----- RGs -----')
-            cliente.getRgs.forEach((rgs)=>{
-                console.log(`Número RG: ${rgs.getValor}\nData de emissão: ${rgs.getDataEmissao}`)
-                console.log('\n---------------\n')
-            });
-            console.log(`Data do cadastro: ${cliente.getDataCadastro}`)
-            console.log('\n----- Telefones -----')
-            cliente.getTelefones.forEach((telefone)=>{
-                console.log(`(${telefone.getDdd}) ${telefone.getNumero}`)
-            })
-            console.log('---------------------')
-            console.log("PRODUTOS CONSUMIDOS")
-            console.log('       --------------------------------')
-            cliente.getProdutosConsumidos.forEach((produto)=>{
-                console.log(`       ID: ${produto.getId}\n       Produto: ${produto.getProduto}\n       Preço: ${produto.getPreco}`)
-                console.log('       --------------------------------')
-            })
-            console.log("SERVIÇOS CONSUMIDOS")
-            console.log('       --------------------------------')
-            cliente.getServicosConsumidos.forEach((servico)=>{          
-                console.log(`       ID: ${servico.getId}\n       Serviço: ${servico.getServico}\n       Preços: ${servico.getPreco}`)
-                console.log('       --------------------------------')
-            })
-            console.log(`\n=========================================\n`);
-        });
-        console.log(`\n`);
+
+    }
+
+    public async listagemConsumoProduto(id: string){
+        await this.conexao.conectar()
+        let [consulta, meta]: any = this.conexao.query(`SELECT cp.cliente_codigo AS id, c.cliente_nome AS nome,`
+        + `SUM(cp.produto_codigo) AS quantidade, SUM(cp.con_prod_preco) AS valor, c.cliente_genero`
+        + `FROM consumo_produto cp INNER JOIN cliente c`
+        + `ON cp.cliente_codigo = c.cliente_codigo`
+        + `where cp.cliente_codigo = ${id}`
+        + `group by cp.cliente_codigo;`)
+        await this.conexao.desconectar() 
+        return consulta
     }
 
     public listaClienteNomeId(){

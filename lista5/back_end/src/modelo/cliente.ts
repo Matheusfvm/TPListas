@@ -5,6 +5,9 @@ import Servico from "./servico"
 import Telefone from "./telefone"
 
 export default class Cliente {
+    forEach(arg0: (cliente: any) => void) {
+        throw new Error("Method not implemented.")
+    }
     private id: number
     public nome: string
     public nomeSocial: string
