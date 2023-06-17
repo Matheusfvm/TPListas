@@ -33,8 +33,8 @@ CREATE TABLE `consumo_produto` (
   PRIMARY KEY (`con_prod_codigo`),
   KEY `fk_cliente_consumo_produto` (`cliente_codigo`),
   KEY `fk_produto_consumo_produto` (`produto_codigo`),
-  CONSTRAINT `fk_cliente_consumo_produto` FOREIGN KEY (`cliente_codigo`) REFERENCES `cliente` (`cliente_codigo`),
-  CONSTRAINT `fk_produto_consumo_produto` FOREIGN KEY (`produto_codigo`) REFERENCES `produto` (`produto_codigo`)
+  CONSTRAINT `fk_cliente_consumo_produto` FOREIGN KEY (`cliente_codigo`) REFERENCES `cliente` (`cliente_codigo`) ON DELETE CASCADE,
+  CONSTRAINT `fk_produto_consumo_produto` FOREIGN KEY (`produto_codigo`) REFERENCES `produto` (`produto_codigo`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

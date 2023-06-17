@@ -31,7 +31,7 @@ CREATE TABLE `telefone` (
   `cliente_codigo` int NOT NULL,
   PRIMARY KEY (`telefone_codigo`),
   KEY `fk_cliente_telefone` (`cliente_codigo`),
-  CONSTRAINT `fk_cliente_telefone` FOREIGN KEY (`cliente_codigo`) REFERENCES `cliente` (`cliente_codigo`)
+  CONSTRAINT `fk_cliente_telefone` FOREIGN KEY (`cliente_codigo`) REFERENCES `cliente` (`cliente_codigo`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
