@@ -51,10 +51,9 @@ let execucao = true */
 
 //Nessa rota preciso de um array de clientes com {id, nome, consumoQuantidade, consumoValor, genero}
 app.get('/listaClientes', async (req, res) => {
-  let id = req.body.id
-  let clientes = listaCliente.listagemConsumoProduto(id)
+  let clientes = await listaCliente.listagemConsumoProduto()
   console.log(clientes)
-  res.send('foi')
+  res.send(clientes)
 });
 
 

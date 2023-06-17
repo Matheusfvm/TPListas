@@ -15,14 +15,22 @@ export default class ListagemClientes extends Listagem {
 
     }
 
-    public async listagemConsumoProduto(id: string){
+    public async listagemConsumoProduto(){
         await this.conexao.conectar()
-        let consulta = await this.conexao.query(`SELECT cp.cliente_codigo AS id, c.cliente_nome AS nome,`
-        + `SUM(cp.produto_codigo) AS quantidade, SUM(cp.con_prod_preco) AS valor, c.cliente_genero`
-        + `FROM consumo_produto cp INNER JOIN cliente c`
-        + `ON cp.cliente_codigo = c.cliente_codigo`
-        + `where cp.cliente_codigo = ${id}`
-        + `group by cp.cliente_codigo;`) as Array<any>
+        let consulta = await this.conexao.query(`
+        SELECT c.cliente_codigo AS id, c.cliente_nome AS nome,
+        count(cp.produto_codigo) + count(cs.servico_codigo) AS consumoQuantidade, COALESCE(SUM(cp.con_prod_preco), 0.00) + COALESCE(SUM(cs.con_serv_preco), 0.00) AS consumoValor, c.cliente_genero as genero
+        FROM cliente c 
+            left join consumo_produto cp on c.cliente_codigo = cp.cliente_codigo
+            left join consumo_servico cs on c.cliente_codigo = cs.cliente_codigo
+        group by c.cliente_codigo;`) as Array<any>
+        await this.conexao.desconectar() 
+        return consulta[0]
+    }
+
+    public async listaCliente(){
+        await this.conexao.conectar()
+        let consulta = await this.conexao.query(`Select * from cliente`) as Array<any>
         await this.conexao.desconectar() 
         return consulta
     }

@@ -6,19 +6,20 @@ import api from '../api';
 export default function ListaClientes(props) {
     const estilo = `collection-item active ${props.tema}`
 
-    const [clientes, setClientes] = useState([
-    {id:1, nome:"Cliente1", consumoQuantidade:10, consumoValor:50.90, genero:"Masculino"}, 
-    {id:2, nome:"Cliente2", consumoQuantidade:9, consumoValor:50.80, genero:"Feminino"}, 
-    {id:3, nome:"Cliente3", consumoQuantidade:8, consumoValor:45.90, genero:"Feminino"}, 
-    {id:4, nome:"Cliente4", consumoQuantidade:4, consumoValor:23.90, genero:"Masculino"},
-    {id:5, nome:"Cliente5", consumoQuantidade:1, consumoValor:4.90, genero:"Feminino"},
-    {id:6, nome:"Cliente6", consumoQuantidade:2, consumoValor:7.33, genero:"Masculino"},
-    {id:7, nome:"Cliente7", consumoQuantidade:3, consumoValor:12.00, genero:"Feminino"},
-    {id:8, nome:"Cliente8", consumoQuantidade:4, consumoValor:16.41, genero:"Masculino"},
-    {id:9, nome:"Cliente9", consumoQuantidade:5, consumoValor:21.76, genero:"Masculino"},
-    {id:10, nome:"Cliente10", consumoQuantidade:6, consumoValor:33.90, genero:"Feminino"},
-    {id:11, nome:"Cliente11", consumoQuantidade:7, consumoValor:37.90, genero:"Feminino"},
-    {id:12, nome:"Cliente12", consumoQuantidade:5, consumoValor:21.76, genero:"Masculino"}])
+    // const [clientes, setClientes] = useState([
+    // {id:1, nome:"Cliente1", consumoQuantidade:10, consumoValor:50.90, genero:"Masculino"}, 
+    // {id:2, nome:"Cliente2", consumoQuantidade:9, consumoValor:50.80, genero:"Feminino"}, 
+    // {id:3, nome:"Cliente3", consumoQuantidade:8, consumoValor:45.90, genero:"Feminino"}, 
+    // {id:4, nome:"Cliente4", consumoQuantidade:4, consumoValor:23.90, genero:"Masculino"},
+    // {id:5, nome:"Cliente5", consumoQuantidade:1, consumoValor:4.90, genero:"Feminino"},
+    // {id:6, nome:"Cliente6", consumoQuantidade:2, consumoValor:7.33, genero:"Masculino"},
+    // {id:7, nome:"Cliente7", consumoQuantidade:3, consumoValor:12.00, genero:"Feminino"},
+    // {id:8, nome:"Cliente8", consumoQuantidade:4, consumoValor:16.41, genero:"Masculino"},
+    // {id:9, nome:"Cliente9", consumoQuantidade:5, consumoValor:21.76, genero:"Masculino"},
+    // {id:10, nome:"Cliente10", consumoQuantidade:6, consumoValor:33.90, genero:"Feminino"},
+    // {id:11, nome:"Cliente11", consumoQuantidade:7, consumoValor:37.90, genero:"Feminino"},
+    // {id:12, nome:"Cliente12", consumoQuantidade:5, consumoValor:21.76, genero:"Masculino"}])
+    const [clientes, setClientes] = useState([])
     const [lista10MaioresQuantidade, setLista10MaioresQuantidade] = useState([])
     const [lista10MenoresQuantidade, setLista10MenoresQuantidade] = useState([])
     const [lista5MaioresValor, setLista5MaioresValor] = useState([])
@@ -27,6 +28,7 @@ export default function ListaClientes(props) {
 
     async function getClientes(){
         await api.get(`/listaClientes`).then((resposta)=>{
+            setClientes(resposta.data)
             console.log(resposta.data)
         })
     }
