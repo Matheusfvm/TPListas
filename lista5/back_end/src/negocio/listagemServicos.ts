@@ -1,35 +1,35 @@
+import BancoDados from "../modelo/bancoDados"
 import Servico from "../modelo/servico"
 import Listagem from "./listagem"
 
 
 export default class ListagemServico extends Listagem {
-    private servicos: Array<Servico>
-    constructor(servicos: Array<Servico>){
+    private conexao:BancoDados
+    constructor(){
         super()
-        this.servicos = servicos
-    }
-    public listar(): void {
-        console.log(`\nLista de todos os Serços:\n`)
-        console.log(`--------------------------------------`)
-        this.servicos.forEach(servico => {// "forEach" passa por todos os elementos de um Array
-            console.log(`ID: ${servico.getId}`)
-            console.log(`Nome: ${servico.getServico}`)
-            console.log(`Preço: R$ ${servico.getPreco}`)
-            console.log(`Consumido ${servico.getQuantidadeConsumo} vezes`)
-            console.log(`--------------------------------------`)
-        })
-        console.log(`\nFim da lista\n`)
-    }
-
-    public listagem5ServicosMaisConsumidos(){
-        let listagem = this.servicos
-        listagem.sort((a, b) => {return b.getQuantidadeConsumo - a.getQuantidadeConsumo})
-        let contagem = 1
-        listagem.forEach((lista)=>{
-            if(contagem <= 5){
-                contagem += 1
-                console.log(`ID: ${lista.getId} | ${lista.getServico} | R$ ${lista.getPreco} | Consumido ${lista.getQuantidadeConsumo} vezes`)
-            }
-        })
+        this.conexao =  new BancoDados
+        }
+    public async listar(){
+        await this.conexao.conectar()
+        let resultado = await this.conexao.query(`
+        SELECT s.servico_codigo as id, s.servico_nome as nomeServico, COALESCE(cH.consumoHomem, 0) as consumoHomem, COALESCE(cM.consumoMulher, 0) as consumoMulher, COALESCE(cH.consumoHomem, 0) + COALESCE(cM.consumoMulher, 0) as consumoTotal
+        FROM servico s
+        	LEFT JOIN (SELECT count(consumo_servico.con_serv_preco) as consumoHomem, consumo_servico.servico_codigo 
+        		FROM consumo_servico, cliente 
+        		WHERE consumo_servico.cliente_codigo = cliente.cliente_codigo 
+                and cliente.cliente_genero = 'Masculino'
+                GROUP BY consumo_servico.servico_codigo) cH 
+        		ON cH.servico_codigo = s.servico_codigo
+            LEFT JOIN (SELECT count(consumo_servico.con_serv_preco) as consumoMulher, consumo_servico.servico_codigo
+        		FROM consumo_servico, cliente 
+        		WHERE consumo_servico.cliente_codigo = cliente.cliente_codigo 
+                and cliente.cliente_genero = 'Feminino'
+                GROUP BY consumo_servico.servico_codigo) cM 
+                ON cM.servico_codigo = s.servico_codigo
+        GROUP BY s.servico_codigo;
+        `) as Array<any>
+        await this.conexao.desconectar()
+        console.log(resultado)
+        return resultado[0]
     }
 }

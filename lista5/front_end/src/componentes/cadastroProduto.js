@@ -19,8 +19,8 @@ export default function CadastroProduto(props){
     // =========== Submit ===========
 
     async function cadastraProduto(){
-        api.post('/cadastroServico', {descricaoProduto, precoProduto})
-            .then((e)=>{props.seletorView('Serviços', e)})
+        api.post('/cadastroProduto', {descricaoProduto, precoProduto})
+            .then((e)=>{props.seletorView('Produtos', e)})
     }
     
     // ==============================

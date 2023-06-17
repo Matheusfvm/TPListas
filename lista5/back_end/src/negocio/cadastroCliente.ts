@@ -45,7 +45,7 @@ export default class CadastroCliente extends Cadastro {
         await this.conexao.conectar()
         rgs.forEach(async (rg)=>{
             await this.conexao.query(`
-                INSERT INTO rg(rg_numero, rg_data_emissão, cliente_codigo)
+                INSERT INTO rg(rg_numero, rg_data_emissao, cliente_codigo)
                 VALUES(?, ?, ?)
             `, [rg.numeroRG, rg.dataEmissao, id])
         })
