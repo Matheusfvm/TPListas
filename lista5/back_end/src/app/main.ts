@@ -28,7 +28,7 @@ const bd = new BancoDados()
 
 console.log(`Bem-vindo ao sistema de agenda de clientes do Grupo World Beauty`)
 
-/* let listaCliente = new ListagemClientes(empresa.getClientes); */
+let listaCliente = new ListagemClientes();
 /* let listaServico = new ListagemServico(empresa.getServicos);
 let listaProdutos = new ListagemProdutos(empresa.getProdutos);
 let cadastroCliente = new CadastroCliente(empresa.getClientes);
@@ -52,9 +52,8 @@ let execucao = true */
 //Nessa rota preciso de um array de clientes com {id, nome, consumoQuantidade, consumoValor, genero}
 app.get('/listaClientes', async (req, res) => {
   let id = req.body.id
-  let dados = []
-    //dados.forEach((dados)=>{resposta.push({dados.id, dados.nome, dados.consumoQuantidade, dados.consumoValor, dados.genero})})
-  //res.send(dados)
+  let clientes = listaCliente.listagemConsumoProduto(id)
+  console.log(clientes)
   res.send('foi')
 });
 
