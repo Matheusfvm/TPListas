@@ -60,12 +60,12 @@ app.get('/listaClientes', async (req, res) => {
 //Nessa rota preciso do nome, 
 app.get('/alteraCliente/:id', (req, res)=>{
   let id = req.params.id
+  let clientes = listaCliente.listarDadosCliente(id)
   //Função que pega os dados usando o id: {nome, sobrenome, cpf{numeroCpf, dataEmissao}, genero, rgs[{numeroRG, dataEmissao}], telefone[{ddd, numeroTelefone}], servicos[{servicoNome, consumo}](quantidade consumida pelo id), produto[{produtoNome, consumo}](quantidade consumida pelo id)}
-  //res.send(dadosResgatados)
-  res.send('foi')
+  console.log(clientes)
+  res.send(clientes)  
+  /* res.send('foi') */
 });
-
-
 
 app.post('/alteraCliente', (req, res)=>{
   // Recebe do front os seguintes dados: {nome, sobrenome, cpf{numeroCpf, dataEmissao}, genero, rgs[{numeroRG, dataEmissao}], telefone[{ddd, numeroTelefone}], servicos[{servicoNome, consumo}], produto[{produtoNome, consumo}]}

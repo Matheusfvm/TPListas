@@ -1,6 +1,7 @@
 import materialize from 'materialize-css';
 import { useEffect } from "react"
 import { useState } from "react"
+import api from '../api';
 
 export default function AlteraCliente (props){
     const estiloBotao = `btn waves-effect waves-light ${props.tema}`
@@ -18,7 +19,7 @@ export default function AlteraCliente (props){
 
     async function getDados(){
         // Pega dados de um backend usando o id do cliente vindo do props
-        // await api.get(`/updateCliente/${props.numeroCliente}`).then((resposta)=>{
+        await api.get(`/alteraCliente/${props.numeroCliente}`)//.then((resposta)=>{
         //     setNome(reposta.nome)
         //     setSobrenome(resposta.sobrenome)
         //     setTelefone(resposta.telefone)
@@ -35,7 +36,9 @@ export default function AlteraCliente (props){
         setSobrenome("Sobrenome"+  props.numeroCliente)
         setRender(render+1)
     }
+    async function getClientes(){
 
+    }
     function alteraConsumo(evento, index, tipo){
         let controle = []
         if(tipo === "Serviços"){
@@ -172,7 +175,7 @@ export default function AlteraCliente (props){
     useEffect(() => {
         const select = document.querySelectorAll('select');
         materialize.FormSelect.init(select);
-        //getClientes()
+        getClientes()
     },[]);
 
     return (
