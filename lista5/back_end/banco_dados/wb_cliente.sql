@@ -27,9 +27,10 @@ DROP TABLE IF EXISTS `cliente`;
 CREATE TABLE `cliente` (
   `cliente_codigo` int NOT NULL AUTO_INCREMENT,
   `cliente_nome` varchar(100) NOT NULL,
-  `cliente_nome_social` varchar(100) NOT NULL,
+  `cliente_sobrenome` varchar(100) NOT NULL,
   `cliente_genero` varchar(50) NOT NULL,
   `cliente_cpf` varchar(14) NOT NULL,
+  `cliente_cpf_emissao` date NOT NULL,
   `cliente_data_cadastro` date NOT NULL,
   PRIMARY KEY (`cliente_codigo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

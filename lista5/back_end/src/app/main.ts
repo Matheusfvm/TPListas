@@ -27,11 +27,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const bd = new BancoDados()
 
 console.log(`Bem-vindo ao sistema de agenda de clientes do Grupo World Beauty`)
-
+let cadastroCliente = new CadastroCliente();
 let listaCliente = new ListagemClientes();
 /* let listaServico = new ListagemServico(empresa.getServicos);
 let listaProdutos = new ListagemProdutos(empresa.getProdutos);
-let cadastroCliente = new CadastroCliente(empresa.getClientes);
+
 let cadastroServico = new CadastroServico(empresa.getServicos);
 let cadastroProduto = new CadastroProduto(empresa.getProdutos);
 let atualizaCliente = new AtualizarCliente(empresa.getClientes);
@@ -75,8 +75,11 @@ app.post('/alteraCliente', (req, res)=>{
 })
 
 app.post('/cadastroCliente', (req, res)=>{
+  let dados = req.body
+  console.log(dados)
   // Recebe do front os seguintes dados: {nome, sobrenome, cpf{numeroCpf, dataEmissao}, genero, rgs[{numeroRG, dataEmissao}], telefone[{ddd, numeroTelefone}]
   // Função que insere esses dados acima
+  cadastroCliente.cadastrar(dados)
   res.send('foi')
   })
 
@@ -138,7 +141,7 @@ app.post('/alteraServico', (req, res)=>{
 //===================== Configuração de porta =====================
 
 app.listen(8000, () => {
-    console.log('http://localhost8000/');
+    console.log('http://localhost:8000/');
   });
 
 // while (execucao) {

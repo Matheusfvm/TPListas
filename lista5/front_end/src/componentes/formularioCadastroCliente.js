@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import materialize from 'materialize-css';
+import api from "../api";
 
 export default function FormularioCadastroCliente(props){
     const estiloBotao = `btn waves-effect waves-light ${props.tema}`
@@ -14,7 +15,7 @@ export default function FormularioCadastroCliente(props){
 
     // ============== Cadastro ==============
     async function cadastraCliente(){
-        //api.post('/cadastraCliente', {nome, sobrenome, cpf, genero, rgs, telefone}).then(()=>{props.seletorView('Clientes', e)})
+        api.post('/cadastroCliente', {nome, sobrenome, cpf, genero, rgs, telefone}).then((e)=>{props.seletorView('Clientes', e)})
     }
 
     // ============== CPF ==============
@@ -142,10 +143,10 @@ export default function FormularioCadastroCliente(props){
             <form className="col s12">
                 <div className="row">
                     <div className="input-field col s4">
-                        <input id="first_name" type="text" className="validate" value={nome} onChange={(e)=>{setNome(e)}}  placeholder="nome"/>
+                        <input id="first_name" type="text" className="validate" value={nome} onChange={(e)=>{setNome(e.target.value)}}  placeholder="nome"/>
                     </div>
                     <div className="input-field col s4">
-                        <input id="last_name" type="text" className="validate" value={sobrenome} onChange={(e)=>{setSobrenome(e)}} placeholder="sobrenome"/>
+                        <input id="last_name" type="text" className="validate" value={sobrenome} onChange={(e)=>{setSobrenome(e.target.value)}} placeholder="sobrenome"/>
                     </div>
                     <div className="input-field col s4">
                         <select value={genero} onChange={(e)=>{setGenero(e.target.value)}}>
@@ -208,7 +209,7 @@ export default function FormularioCadastroCliente(props){
 
                 <div className="row">
                     <div className="col s12">
-                        <button className={estiloBotao} type="submit" name="action">Submit
+                        <button className={estiloBotao} onClick={cadastraCliente} type="submit" name="action">Submit
                             <i className="material-icons right">send</i>
                         </button>
                     </div>
