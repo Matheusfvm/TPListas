@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState, useEffect } from "react";
 import materialize from 'materialize-css';
+import api from "../api";
 
 export default function ListaProduto(props) {
     const estilo = `collection-item active ${props.tema}`
@@ -62,12 +63,23 @@ export default function ListaProduto(props) {
         setMaisConsumidosMulheres(lista)
     }
 
+    //============= Pega Lista =============
+
+    async function getProdutos(){
+        await api.get('/listaProduto').then((resposta)=>{
+            console.log(resposta.data)
+            setProdutos(resposta.data)
+        })
+    }
+
+    //======================================
+
 
 
     useEffect(() => {
         const select = document.querySelectorAll('select');
         materialize.FormSelect.init(select);
-        //getClientes()
+        getProdutos()
         ordenaMaisCunsumidos()
         ordenaMaisCunsumidosHomens()
         ordenaMaisCunsumidosMulheres()

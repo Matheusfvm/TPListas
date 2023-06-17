@@ -18,9 +18,9 @@ export default function CadastroServico(props){
 
     // =========== Submit ===========
 
-    async function cadastraServico(){
-        api.post('/cadastroServico', {descricaoServico, precoServico})
-            .then((e)=>{props.seletorView('Serviços', e)})
+    async function cadastraServico(e){
+        await api.post('/cadastroServico', {descricaoServico, precoServico})
+            .then((resposta)=>{props.seletorView('Serviços', e)})
     }
 
     // ==============================
@@ -34,7 +34,7 @@ export default function CadastroServico(props){
             <form className="col s12">
                 <div className="row">
                     <div className="input-field col s12">
-                        <input id="descricaoProduto" type="text" className="validate"  placeholder="Produto" value={descricaoServico} 
+                        <input id="descricaoProduto" type="text" className="validate"  placeholder="Serviço" value={descricaoServico} 
                         onChange={(e)=>{setDescricaoServico(e.target.value)}}/>
                     </div>
                     
@@ -47,7 +47,7 @@ export default function CadastroServico(props){
                 </div>
                 <div className="row">
                     <div className="col s12">
-                        <button className={estiloBotao} onClick={cadastraServico} type="submit" name="action">Submit
+                        <button className={estiloBotao} onClick={(e)=>{cadastraServico(e)}} type="submit" name="action">Submit
                             <i className="material-icons right">send</i>
                         </button>
                     </div>

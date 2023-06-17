@@ -32,8 +32,10 @@ let listaCliente = new ListagemClientes();
 let cadastroServico = new CadastroServico();
 let cadastroProduto = new CadastroProduto();
 let atualizaServico = new AtualizarServico();
+let listaServico = new ListagemServico();
+let listaProdutos = new ListagemProdutos();
 /* let listaServico = new ListagemServico(empresa.getServicos);
-let listaProdutos = new ListagemProdutos(empresa.getProdutos);
+
 
 let cadastroServico = new CadastroServico(empresa.getServicos);
 let cadastroProduto = new CadastroProduto(empresa.getProdutos);
@@ -60,14 +62,12 @@ app.get('/listaClientes', async (req, res) => {
 });
 
 
-//Nessa rota preciso do nome, 
+
 app.get('/alteraCliente/:id', (req, res)=>{
   let id = req.params.id
   let clientes = listaCliente.listarDadosCliente(id)
-  //Função que pega os dados usando o id: {nome, sobrenome, cpf{numeroCpf, dataEmissao}, genero, rgs[{numeroRG, dataEmissao}], telefone[{ddd, numeroTelefone}], servicos[{servicoNome, consumo}](quantidade consumida pelo id), produto[{produtoNome, consumo}](quantidade consumida pelo id)}
   console.log(clientes)
   res.send(clientes)  
-  /* res.send('foi') */
 });
 
 app.post('/alteraCliente', (req, res)=>{
@@ -87,8 +87,9 @@ app.post('/cadastroCliente', (req, res)=>{
 //==================== Produto ====================
 
 //Nessa rota preciso de um array de Produtos com {id, produto, consumoHomem, consumoMulher, consumoTotal}
-app.get('/listaProduto', (req, res)=>{
-  res.send('foi')
+app.get('/listaProduto', async (req, res)=>{
+  let dados = await listaProdutos.listar()
+  res.send(dados)
 })
 
 app.post('/cadastroProduto', async (req, res)=>{
@@ -114,8 +115,9 @@ app.post('/alteraProduto', (req, res)=>{
 //==================== Serviço ====================
 
 //Nessa rota preciso de um array de Serviço com {id, serviço, consumoHomem, consumoMulher, consumoTotal}
-app.get('/listaServico', (req, res)=>{
-  res.send('foi')
+app.get('/listaServico', async (req, res)=>{
+  let dados = await listaServico.listar()
+  res.send(dados)
 })
 
 app.post('/cadastroServico', async (req, res)=>{
