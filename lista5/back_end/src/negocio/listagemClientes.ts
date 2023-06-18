@@ -18,11 +18,15 @@ export default class ListagemClientes extends Listagem {
         await this.conexao.conectar()
         let consulta = await this.conexao.query(`
         SELECT c.cliente_codigo AS id, c.cliente_nome AS nome,
-        count(cp.produto_codigo) + count(cs.servico_codigo) AS consumoQuantidade, COALESCE(SUM(cp.con_prod_preco), 0.00) + COALESCE(SUM(cs.con_serv_preco), 0.00) AS consumoValor, c.cliente_genero as genero
+        COALESCE(cp.contagemP, 0) + COALESCE(cs.contagemS, 0) AS consumoQuantidade, COALESCE(somaP, 0.00) + COALESCE(somaS, 0.00) AS consumoValor, c.cliente_genero as genero
         FROM cliente c 
-            left join consumo_produto cp on c.cliente_codigo = cp.cliente_codigo
-            left join consumo_servico cs on c.cliente_codigo = cs.cliente_codigo
-        group by c.cliente_codigo;`) as Array<any>
+            left join (SELECT count(consumo_produto.produto_codigo) as contagemP, COALESCE(SUM(consumo_produto.con_prod_preco), 0.00) AS somaP, consumo_produto.cliente_codigo FROM consumo_produto, cliente 
+                WHERE cliente.cliente_codigo = consumo_produto.cliente_codigo 
+                GROUP BY consumo_produto.cliente_codigo) cp ON cp.cliente_codigo = c.cliente_codigo
+            left join (SELECT  COALESCE(count(consumo_servico.servico_codigo), 0) as contagemS, COALESCE(SUM(consumo_servico.con_serv_preco), 0.00) AS somaS, consumo_servico.cliente_codigo FROM consumo_servico, cliente 
+                WHERE cliente.cliente_codigo = consumo_servico.cliente_codigo 
+                GROUP BY consumo_servico.cliente_codigo) cs ON cs.cliente_codigo = c.cliente_codigo
+        group by c.cliente_codigo`) as Array<any>
         await this.conexao.desconectar() 
         return consulta[0]
     }
@@ -30,12 +34,12 @@ export default class ListagemClientes extends Listagem {
     public async listarDadosCliente(id: string) {
         await this.conexao.conectar()
         let cliente = await this.conexao.query(
-            `SELECT cliente_nome AS nome, cliente_nome_social AS nomeSocial, cliente_cpf AS numeroCpf, cliente_cpf_data AS dataEmissao 
+            `SELECT cliente_nome AS nome, cliente_sobrenome AS sobrenome, cliente_cpf AS numeroCpf, cliente_cpf_emissao AS dataEmissao, cliente_genero AS genero
             FROM cliente 
             WHERE cliente_codigo = ${id};`
         ) as Array<any>;
         let rg = await this.conexao.query(
-            `SELECT rg_numero AS numeroRG, rg_data_emissao AS rgDataEmissao 
+            `SELECT rg_numero AS numeroRG, DATE_FORMAT(rg_data_emissao, '%Y-%m-%d') AS dataEmissao 
             FROM rg 
             WHERE cliente_codigo = ${id};`
         ) as Array<any>;
@@ -48,17 +52,17 @@ export default class ListagemClientes extends Listagem {
             `SELECT s.servico_nome AS servicoNome, count(cs.servico_codigo) AS consumo 
             FROM servico s 
                 LEFT JOIN consumo_servico cs ON s.servico_codigo = cs.servico_codigo AND cs.cliente_codigo = ${id} 
-            GROUP AND s.servico_nome;`
-            ) as Array<any>;;
+            GROUP BY s.servico_nome;`
+            ) as Array<any>;
         let consumoProduto = await this.conexao.query(
             `SELECT p.produto_nome as produtoNome, count(cp.produto_codigo) AS consumo
             FROM produto p 
                 LEFT JOIN consumo_produto cp ON p.produto_codigo = cp.produto_codigo AND cp.cliente_codigo = ${id}
             GROUP BY p.produto_nome;`
-        ) as Array<any>;;
-        cliente[0].push(rg[0], telefone[0], consumoServico[0], consumoProduto[0])
+        ) as Array<any>;
+        let dados = {cliente:cliente[0], rg:rg[0], telefone:telefone[0], consumoServico:consumoServico[0], consumoProduto:consumoProduto[0]}
         await this.conexao.desconectar()
-        return cliente[0]
+        return dados
     }
     
 

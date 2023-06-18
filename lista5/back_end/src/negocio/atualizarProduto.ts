@@ -17,22 +17,27 @@ export default class AtualizarProduto extends Atualizador {
             FROM consumo_produto 
             WHERE con_prod_nome = ? 
             GROUP BY cliente_codigo;`,
-            [produto.nome]
+            [produto.produtoNome]
         )
+        await this.conexao.desconectar()
+        await this.conexao.conectar()
         let variacaoConsumo = produto.consumo - quantidadeInicial[0]
         let pegaPrecoIdProduto = await this.conexao.query(
             `SELECT produto_codigo, produto_preco 
             FROM produto
-            WHERE produto = ?;`,
-            [produto.nome]
+            WHERE produto_nome = ?;`,
+            [produto.produtoNome]
         )
-        console.log(pegaPrecoIdProduto)
+        this.conexao.desconectar()
+        await this.conexao.conectar()
+        console.log(pegaPrecoIdProduto[0][0])
         for (let i = 0; i < variacaoConsumo; i++) {
             let insereProduto = await this.conexao.query(
                 `INSERT INTO consumo_produto (con_prod_nome, con_prod_preco, cliente_codigo, produto_servico)
                 VALUES (?, ?, ?, ?);`,
-                [produto.nome, pegaPrecoIdProduto[0].produto_preco, id, pegaPrecoIdProduto[0].produto_codigo]
+                [produto.produtoNome, pegaPrecoIdProduto[0][0].produto_preco, id, pegaPrecoIdProduto[0][0].produto_codigo]
             )
         }
+        await this.conexao.desconectar()
     };
 };

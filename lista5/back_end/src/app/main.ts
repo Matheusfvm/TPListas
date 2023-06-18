@@ -59,35 +59,39 @@ let execucao = true */
 //Nessa rota preciso de um array de clientes com {id, nome, consumoQuantidade, consumoValor, genero}
 app.get('/listaClientes', async (req, res) => {
   let clientes = await listaCliente.listagemConsumoProdutoServico()
-  console.log(clientes)
   res.send(clientes)
 });
 
 
 
-app.get('/alteraCliente/:id', (req, res)=>{
+app.get('/alteraCliente/:id', async (req, res)=>{
   let id = req.params.id
-  let clientes = listaCliente.listarDadosCliente(id)
-  console.log(clientes)
+  let clientes = await listaCliente.listarDadosCliente(id)
   res.send(clientes)  
 });
 
-app.post('/alteraCliente', (req, res)=>{
+app.post('/alteraCliente', async (req, res)=>{
   // Recebe do front os seguintes dados: {nome, sobrenome, cpf{numeroCpf, dataEmissao}, genero, rgs[{numeroRG, dataEmissao}], telefone[{ddd, numeroTelefone}], servicos[{servicoNome, consumo}], produto[{produtoNome, consumo}]}
-  let {id, nome, sobrenome, cpf, cpfDataEmissao, genero, rgs, telefone, servico, produto} = req.body
-  let dadosCliente = [nome, sobrenome, cpf, cpfDataEmissao, genero, id]
-  atualizaCliente.atualizarCliente(id, nome, sobrenome, cpf, cpfDataEmissao, genero);
-  cadastroCliente.cadastraRgs(rgs, id);
-  cadastroCliente.cadastroTelefone(telefone, id)
-  atualizaProduto.consumirProduto(produto, id)
-  atualizaServico.consumirServico(servico, id)
+  console.log(req.body)
+  let {id, nome, sobrenome, numeroCpf, dataEmissao, genero, rgs, telefone, servicos, produtos} = req.body
+  id = parseInt(id)
+  let dadosCliente = [nome, sobrenome, numeroCpf, dataEmissao, genero, id]
+  await atualizaCliente.atualizarCliente(id, nome, sobrenome, numeroCpf, dataEmissao, genero);
+  await cadastroCliente.cadastraRgs(rgs, id);
+  await cadastroCliente.cadastroTelefone(telefone, id)
+  produtos.forEach(async (produto)=>{
+    await atualizaProduto.consumirProduto(produto, id)
+  })
+  servicos.forEach(async (servico)=>{
+    await atualizaServico.consumirServico(servico, id)
+  })
+  
   //função que faz o update usando os dados acima como parametro
   res.send('foi')
 })
 
 app.post('/cadastroCliente', (req, res)=>{
   let dados = req.body
-  console.log(dados)
   cadastroCliente.cadastrar(dados)
   res.send('foi')
   })
@@ -138,7 +142,6 @@ app.post('/cadastroServico', async (req, res)=>{
 app.get('/alteraServico/:id', (req, res)=>{
   let id = req.params.id
   let dados = atualizaServico.regatar(id)
-  console.log('Resgata Servico:', dados)
   res.send(dados)
 })
 
