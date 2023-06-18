@@ -73,12 +73,12 @@ app.get('/alteraCliente/:id', async (req, res)=>{
 app.post('/alteraCliente', async (req, res)=>{
   // Recebe do front os seguintes dados: {nome, sobrenome, cpf{numeroCpf, dataEmissao}, genero, rgs[{numeroRG, dataEmissao}], telefone[{ddd, numeroTelefone}], servicos[{servicoNome, consumo}], produto[{produtoNome, consumo}]}
   console.log(req.body)
-  let {id, nome, sobrenome, numeroCpf, dataEmissao, genero, rgs, telefone, servicos, produtos} = req.body
+  let {id, nome, sobrenome, numeroCpf, dataEmissao, genero, rg, telefones, servicos, produtos} = req.body
   id = parseInt(id)
   let dadosCliente = [nome, sobrenome, numeroCpf, dataEmissao, genero, id]
   await atualizaCliente.atualizarCliente(id, nome, sobrenome, numeroCpf, dataEmissao, genero);
-  await cadastroCliente.cadastraRgs(rgs, id);
-  await cadastroCliente.cadastroTelefone(telefone, id)
+  await cadastroCliente.cadastraRgs(rg, id);
+  await cadastroCliente.cadastroTelefone(telefones, id)
   produtos.forEach(async (produto)=>{
     await atualizaProduto.consumirProduto(produto, id)
   })
