@@ -16,7 +16,10 @@ export default function AlteraCliente (props){
     const [render, setRender] = useState(0)
     let [servicos, setServicos] = useState([{servicoNome:"Corte de cabelo", consumo:1}])
     let [produtos, setProdutos] = useState([{produtoNome:"Creme de barbear", consumo:0}, {produtoNome:"Batom Vermelho", consumo:1}])
-
+    let [rgC, setRgc] = useState(0)
+    let [rgInicial, setRgInicial] = useState(0)
+    let [telefoneInicial, setTelefoneInicial] = useState(0)
+    let [telefoneC, setTelefoneC] = useState(0)
     
     async function getClientes(){
         await api.get(`/alteraCliente/${props.numeroCliente}`).then((resposta)=>{
@@ -27,7 +30,9 @@ export default function AlteraCliente (props){
             setGenero(cliente.genero)
             setCpf({numeroCpf:cliente.numeroCpf, dataEmissao:cliente.dataEmissao.slice(0, 10)})
             setRgs(resposta.data.rg)
+            setRgInicial(resposta.data.rg.length)
             setTelefone(resposta.data.telefone)
+            setTelefoneInicial(resposta.data.telefone.length)
             setServicos(resposta.data.consumoServico)
             setProdutos(resposta.data.consumoProduto)
         })
@@ -66,6 +71,7 @@ export default function AlteraCliente (props){
         controleRg.push({numeroRG:'', dataEmissao:''})
         setRgs(controleRg)
         setRender(render+1)
+        setRgc(rgC+1)
     }
 
     function deletaRG(index){
@@ -115,6 +121,7 @@ export default function AlteraCliente (props){
         telefoneControle.push({ddd:'', numeroTelefone:''})
         setTelefone(telefoneControle)
         setRender(render+1)
+        setTelefoneC(telefoneC + 1)
     }
 
     function deletaTelefone(index){
@@ -162,9 +169,12 @@ export default function AlteraCliente (props){
         let id = props.numeroCliente
         let numeroCpf = cpf.numeroCpf
         let dataEmissao = cpf.dataEmissao
+
+        let rg = rgs.slice(rgInicial)
+        let telefones = telefone.slice(telefoneInicial)
         console.log(id)
         // {id, nome, sobrenome, cpf, cpfDataEmissao, genero, rgs, telefone, servico, produto}
-        await api.post(`/alteraCliente`, {id, nome, sobrenome, numeroCpf, dataEmissao, genero, rgs, telefone, servicos, produtos})
+        await api.post(`/alteraCliente`, {id, nome, sobrenome, numeroCpf, dataEmissao, genero, rg, telefones, servicos, produtos})
             .then((resposta)=>{props.seletorView('Clientes', resposta)})
     }
 

@@ -90,9 +90,9 @@ app.post('/alteraCliente', async (req, res)=>{
   res.send('foi')
 })
 
-app.post('/cadastroCliente', (req, res)=>{
+app.post('/cadastroCliente', async (req, res)=>{
   let dados = req.body
-  cadastroCliente.cadastrar(dados)
+  await cadastroCliente.cadastrar(dados)
   res.send('foi')
   })
 
