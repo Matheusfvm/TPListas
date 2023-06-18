@@ -17,27 +17,20 @@ export default function AlteraCliente (props){
     let [servicos, setServicos] = useState([{servicoNome:"Corte de cabelo", consumo:1}])
     let [produtos, setProdutos] = useState([{produtoNome:"Creme de barbear", consumo:0}, {produtoNome:"Batom Vermelho", consumo:1}])
 
-    async function getDados(){
-        // Pega dados de um backend usando o id do cliente vindo do props
-        await api.get(`/alteraCliente/${props.numeroCliente}`)//.then((resposta)=>{
-        //     setNome(reposta.nome)
-        //     setSobrenome(resposta.sobrenome)
-        //     setTelefone(resposta.telefone)
-        //     let controleTelefone = []
-        //     resposta.telefones.forEach(telefone => {
-        //         comtroleTelefone.push(telefone)
-        //     });
-        //     setTelefone(controleTelefone)
-        //     setEmail(email)
-        // })
-
-        // ===== SEM CONSUMIR UM BACKEND =====
-        setNome("Nome" + props.numeroCliente)
-        setSobrenome("Sobrenome"+  props.numeroCliente)
-        setRender(render+1)
-    }
+    
     async function getClientes(){
-
+        await api.get(`/alteraCliente/${props.numeroCliente}`).then((resposta)=>{
+            console.log(resposta.data)
+            let cliente = resposta.data.cliente[0]
+            setNome(cliente.nome)
+            setSobrenome(cliente.sobrenome)
+            setGenero(cliente.genero)
+            setCpf({numeroCpf:cliente.numeroCpf, dataEmissao:cliente.dataEmissao.slice(0, 10)})
+            setRgs(resposta.data.rg)
+            setTelefone(resposta.data.telefone)
+            setServicos(resposta.data.consumoServico)
+            setProdutos(resposta.data.consumoProduto)
+        })
     }
     function alteraConsumo(evento, index, tipo){
         let controle = []
@@ -163,11 +156,22 @@ export default function AlteraCliente (props){
         setTelefone(controleTelefone)
     }
 
+    //================= SUBMIT =================
+
+    async function alteraCliente(){
+        let id = props.numeroCliente
+        let numeroCpf = cpf.numeroCpf
+        let dataEmissao = cpf.dataEmissao
+        console.log(id)
+        // {id, nome, sobrenome, cpf, cpfDataEmissao, genero, rgs, telefone, servico, produto}
+        await api.post(`/alteraCliente`, {id, nome, sobrenome, numeroCpf, dataEmissao, genero, rgs, telefone, servicos, produtos})
+            .then((resposta)=>{props.seletorView('Clientes', resposta)})
+    }
+
+    //==========================================
 
     useEffect(() => {
-        if(nome === ''){
-            getDados()
-        }
+
         console.log(servicos)
         
     }, [render, servicos, produtos])
@@ -283,7 +287,7 @@ export default function AlteraCliente (props){
                     
                 <div className="row">
                     <div className="col s12">
-                        <button className={estiloBotao} type="submit" name="action">Submit
+                        <button className={estiloBotao} onClick={alteraCliente} type="submit" name="action">Submit
                             <i className="material-icons right">send</i>
                         </button>
                     </div>
