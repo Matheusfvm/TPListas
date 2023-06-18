@@ -24,6 +24,7 @@ export default function ListaClientes(props) {
     const [lista10MenoresQuantidade, setLista10MenoresQuantidade] = useState([])
     const [lista5MaioresValor, setLista5MaioresValor] = useState([])
     const [filtro, setFiltro] = useState('')
+    const [render, setRender] = useState(0)
 
 
     async function getClientes(){
@@ -31,6 +32,7 @@ export default function ListaClientes(props) {
             setClientes(resposta.data)
             console.log(resposta.data)
         })
+        setRender(render+1)
     }
 
     function Maiores10Quantidade(){
@@ -75,11 +77,14 @@ export default function ListaClientes(props) {
     useEffect(() => {
         const select = document.querySelectorAll('select');
         materialize.FormSelect.init(select);
-        getClientes()
-        Maiores10Quantidade()
-        Menores10Quantidade()
-        Maiores5Valor()
-    },[]);
+        if(render<2){
+            getClientes()
+            Maiores10Quantidade()
+            Menores10Quantidade()
+            Maiores5Valor()
+        }
+        
+    },[render]);
 
     useEffect(()=>{
         console.log(filtro)

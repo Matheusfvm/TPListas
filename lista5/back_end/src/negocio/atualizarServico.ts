@@ -33,16 +33,23 @@ export default class AtualizarServico extends Atualizador {
     public async consumirServico(servico: any, id: string) {
         console.log(servico)
         await this.conexao.conectar()
+        console.log(`SELECT count(servico_codigo) as contagem
+        FROM consumo_servico 
+        WHERE con_serv_nome = ${servico.servicoNome} and cliente_codigo = ${id}
+        GROUP BY cliente_codigo`)
         let quantidadeInicial = await this.conexao.query(
-            `SELECT count(servico_codigo) 
-            FROM consumo_servico 
-            WHERE con_serv_nome = ? 
-            GROUP BY cliente_codigo;`,
-            [servico.servicoNome]
+            `SELECT cliente.cliente_codigo, coalesce(count(consumo_servico.con_serv_nome), 0) as contagem
+                FROM cliente
+                left join consumo_servico ON cliente.cliente_codigo = consumo_servico.cliente_codigo and con_serv_nome = ?
+            WHERE cliente.cliente_codigo = ?
+            GROUP BY cliente.cliente_codigo;`,
+            [servico.servicoNome, id]
         )
         await this.conexao.desconectar()
         await this.conexao.conectar()
-        let variacaoConsumo = servico.consumo - quantidadeInicial[0]
+        console.log("AAAAAAAAAAAAAA", servico.consumo)
+        console.log("BBBBBBBBBBBB", quantidadeInicial)
+        let variacaoConsumo = parseInt(servico.consumo) - quantidadeInicial[0][0].contagem
         let pegaPrecoIdServico = await this.conexao.query(
             `SELECT servico_codigo, servico_preco 
             FROM servico

@@ -27,7 +27,7 @@ DROP TABLE IF EXISTS `rg`;
 CREATE TABLE `rg` (
   `rg_codigo` int NOT NULL AUTO_INCREMENT,
   `rg_numero` varchar(12) NOT NULL,
-  `rg_data_emissão` date NOT NULL,
+  `rg_data_emissao` date NOT NULL,
   `cliente_codigo` int NOT NULL,
   PRIMARY KEY (`rg_codigo`),
   KEY `fk_cliente_rg` (`cliente_codigo`),
