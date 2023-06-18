@@ -96,6 +96,8 @@ app.post('/cadastroCliente', (req, res)=>{
   res.send('foi')
   })
 
+
+
 //==================== Produto ====================
 
 //Nessa rota preciso de um array de Produtos com {id, produto, consumoHomem, consumoMulher, consumoTotal}
@@ -113,14 +115,15 @@ app.post('/cadastroProduto', async (req, res)=>{
 //Preciso do produto e o preço atrelado ao id enviado pelo front
 app.get('/alteraProduto/:id', (req, res)=>{
   let id = req.params.id
-  //Função que pega o preço e o produto
-  res.send('foi')
+  let dados = atualizaProduto.regatar(id)
+  console.log('Resgata Produto:', dados)
+  res.send(dados)
 })
 
 //Front vai enviar preço e produto o back precisa fazer a alteração
 app.post('/alteraProduto', (req, res)=>{
   let {id, produto, preco} = req.body
-  //função que faz o update usando os dados acima como parametro
+  atualizaProduto.atualizar(produto, preco, id)
   res.send('foi')
 })
 
@@ -147,8 +150,8 @@ app.get('/alteraServico/:id', (req, res)=>{
 
 //Front vai enviar preço e serviço
 app.post('/alteraServico', (req, res)=>{
-  let dados = req.body
-  
+  let {id, servico, preco} = req.body
+  atualizaServico.atualizar(servico, preco, id)
   res.send('foi')
 })
 
